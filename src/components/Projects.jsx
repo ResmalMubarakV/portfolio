@@ -14,11 +14,10 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
     transition={{ duration: 0.6, delay }}
     className="glass-card flex flex-col overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)]"
   >
-    {/* IMAGE */}
     <div className="h-48 relative overflow-hidden">
       <img 
         src={image} 
-        alt={title}
+        alt={`${title} project preview`}
         loading="lazy"
         decoding="async"
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -31,33 +30,30 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
           href={live}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-3 right-3 text-xs font-semibold bg-blue-600/90 hover:bg-blue-600 backdrop-blur px-3 py-1.5 rounded-full text-white transition-all duration-300 hover:scale-105"
+          aria-label={`${title} live link`}
+          className="absolute top-3 right-3 text-xs font-semibold bg-blue-600/90 hover:bg-blue-600 px-3 py-1.5 rounded-full text-white transition hover:scale-105"
         >
           Live →
         </a>
       )}
 
-      <div className="absolute bottom-3 left-3 text-xs bg-black/60 backdrop-blur px-3 py-1 rounded-full text-white">
+      <div className="absolute bottom-3 left-3 text-xs bg-black/60 px-3 py-1 rounded-full text-white">
         Preview
       </div>
     </div>
 
-    {/* CONTENT */}
     <div className="p-6 flex flex-col flex-1">
       <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
         {title}
       </h3>
 
-      <p className="text-gray-400 mb-5 text-sm leading-relaxed flex-1">
+      <p className="text-gray-300 mb-5 text-sm leading-relaxed flex-1">
         {description}
       </p>
       
       <div className="flex flex-wrap gap-2 mb-6">
         {tags.map((tag, index) => (
-          <span 
-            key={index} 
-            className="text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-300"
-          >
+          <span key={index} className="text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-300">
             {tag}
           </span>
         ))}
@@ -65,20 +61,22 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
       
       <div className="flex items-center space-x-4 mt-auto">
         <a 
-          href={github} 
-          target="_blank" 
+          href={github}
+          target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-sm text-gray-300 hover:text-white transition-colors"
+          aria-label={`${title} GitHub repository`}
+          className="flex items-center text-sm text-gray-300 hover:text-white"
         >
           <FaGithub size={16} className="mr-2" />
           Code
         </a>
 
         <a 
-          href={live} 
-          target="_blank" 
+          href={live}
+          target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-sm text-gray-300 hover:text-blue-400 transition-colors"
+          aria-label={`${title} live demo`}
+          className="flex items-center text-sm text-gray-300 hover:text-blue-400"
         >
           <FaExternalLinkAlt size={16} className="mr-2" />
           Live
@@ -89,27 +87,26 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
 );
 
 const Projects = () => {
-
   const projectsList = [
     {
       title: "Zaaish E-Commerce Platform",
-      description: "A full-stack MERN eCommerce app with JWT auth, cart, PayPal integration, Redux state management, and Cloudinary image handling.",
-      tags: ["React", "Redux", "Node.js", "Express", "MongoDB", "JWT", "PayPal"],
+      description: "Full-stack MERN eCommerce app with JWT auth, cart, PayPal integration, Redux state management, and Cloudinary image handling.",
+      tags: ["React", "Redux", "Node.js", "Express", "MongoDB", "JWT"],
       github: "https://github.com/ResmalMubarakV/zaaish_ecommerce",
       live: "#",
       image: demo1
     },
     {
-      title: "Dreamland Properties (Client Project)",
-      description: "Real estate platform with WhatsApp API integration, optimized UI, and high-conversion layout for lead generation.",
-      tags: ["React", "TypeScript", "Tailwind", "WhatsApp API"],
+      title: "Dreamland Properties",
+      description: "Client real estate platform with WhatsApp API integration and high-conversion UI.",
+      tags: ["React", "Tailwind", "WhatsApp API"],
       github: "https://github.com/ResmalMubarakV/dreamlands-properties",
       live: "https://www.dreamlandsproperties.com",
       image: demo2
     },
     {
-      title: "Authentication & Session Management",
-      description: "Node.js + Express authentication system with sessions, cookies, and protected routes.",
+      title: "Authentication System",
+      description: "Node.js authentication system with sessions, cookies, and protected routes.",
       tags: ["Node.js", "Express", "Sessions"],
       github: "https://github.com/ResmalMubarakV/Login_Project",
       live: "#",
@@ -117,8 +114,8 @@ const Projects = () => {
     },
     {
       title: "Lazza Ice Cream Clone",
-      description: "Fully responsive UI clone built with HTML, CSS, Bootstrap, and JS with pixel-perfect design.",
-      tags: ["HTML", "CSS", "Bootstrap", "JavaScript"],
+      description: "Responsive UI clone with pixel-perfect design.",
+      tags: ["HTML", "CSS", "Bootstrap"],
       github: "https://github.com/ResmalMubarakV/lazza-clone",
       live: "https://resmalmubarakv.github.io/lazza-clone/",
       image: demo4
@@ -126,30 +123,21 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="relative py-12 md:py-16 bg-black/30">
-      <div className="container mx-auto px-5 sm:px-6 md:px-8">
+    <section id="projects" className="py-12 md:py-16">
+      <div className="container mx-auto px-5">
 
         <div className="mb-12">
-          <motion.h2 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white"
-          >
+          <h2 className="text-4xl font-bold text-white">
             Featured <span className="text-gradient">Work</span>
-          </motion.h2>
-
-          <motion.p 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="text-gray-400 max-w-2xl text-base"
-          >
-            Full-stack projects focused on performance, scalability, and real-world integrations.
-          </motion.p>
+          </h2>
+          <p className="text-gray-300 mt-3">
+            Real-world projects built with performance and scalability.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-          {projectsList.map((project, index) => (
-            <ProjectCard key={index} {...project} delay={index * 0.1} />
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+          {projectsList.map((p, i) => (
+            <ProjectCard key={i} {...p} delay={i * 0.1} />
           ))}
         </div>
 

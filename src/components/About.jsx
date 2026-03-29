@@ -21,9 +21,9 @@ const About = () => {
               
               <img 
                 src={profileImage} 
-                alt="Resmal Mubarak V"
+                alt="Resmal Mubarak V profile photo"
                 decoding="async"
-                className="relative rounded-2xl shadow-xl w-full object-cover border border-white/10 group-hover:scale-[1.02] transition-transform duration-500"
+                className="relative rounded-2xl shadow-xl w-full object-cover border border-white/10 group-hover:scale-[1.02] transition"
               />
             </div>
           </motion.div>

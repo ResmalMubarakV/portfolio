@@ -5,14 +5,18 @@ import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 
 const Contact = () => {
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // ⚡ instant feedback (fixes delay feel)
     const loadingToast = toast.loading("Sending message...");
 
     emailjs.send(
@@ -26,16 +30,11 @@ const Contact = () => {
       "fFWl2ZTAycsCpqRnT"
     )
     .then(() => {
-      toast.success("Message sent 🚀", {
-        id: loadingToast,
-      });
-
+      toast.success("Message sent 🚀", { id: loadingToast });
       setFormState({ name: '', email: '', message: '' });
     })
     .catch(() => {
-      toast.error("Something went wrong ❌", {
-        id: loadingToast,
-      });
+      toast.error("Something went wrong ❌", { id: loadingToast });
     })
     .finally(() => {
       setLoading(false);
@@ -63,11 +62,11 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-gray-400 text-lg"
           >
-            I'm currently available for full-time opportunities or freelance projects.
+            I'm available for full-time roles or freelance work.
           </motion.p>
         </div>
 
-        {/* Form Card */}
+        {/* Form */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -81,39 +80,61 @@ const Contact = () => {
             {/* Inputs */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-              <input
-                type="text"
-                required
-                value={formState.name}
-                onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50"
-                placeholder="Your Name"
-              />
+              <div>
+                <label htmlFor="name" className="sr-only">Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={formState.name}
+                  onChange={(e) =>
+                    setFormState({ ...formState, name: e.target.value })
+                  }
+                  placeholder="Your Name"
+                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50 outline-none"
+                />
+              </div>
 
-              <input
-                type="email"
-                required
-                value={formState.email}
-                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50"
-                placeholder="Your Email"
-              />
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={formState.email}
+                  onChange={(e) =>
+                    setFormState({ ...formState, email: e.target.value })
+                  }
+                  placeholder="Your Email"
+                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50 outline-none"
+                />
+              </div>
 
             </div>
 
-            <textarea
-              rows={5}
-              required
-              value={formState.message}
-              onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-              className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50 resize-none"
-              placeholder="Your Message"
-            />
+            {/* Message */}
+            <div>
+              <label htmlFor="message" className="sr-only">Message</label>
+              <textarea
+                id="message"
+                rows={5}
+                required
+                value={formState.message}
+                onChange={(e) =>
+                  setFormState({ ...formState, message: e.target.value })
+                }
+                placeholder="Your Message"
+                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/50 resize-none outline-none"
+              />
+            </div>
 
-            {/* 🔥 PREMIUM CENTER BUTTON */}
+            {/* Button */}
             <div className="flex justify-center mt-4">
               <button
                 type="submit"
+                aria-label="Send message"
                 disabled={loading}
                 className="group relative px-10 py-4 rounded-xl bg-white text-black font-medium 
                            flex items-center justify-center gap-2
