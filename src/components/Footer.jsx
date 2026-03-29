@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -18,8 +18,9 @@ const Footer = () => {
 
         {/* Social Links */}
         <div className="flex items-center gap-6">
+
           <a
-            href="https://github.com/resmal"
+            href="https://github.com/ResmalMubarakV"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition transform hover:scale-110"
@@ -28,7 +29,7 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://linkedin.com/in/resmal"
+            href="https://www.linkedin.com/in/resmal-mubarak-v/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-blue-400 transition transform hover:scale-110"
@@ -36,19 +37,11 @@ const Footer = () => {
             <FaLinkedin size={20} />
           </a>
 
-          <a
-            href="https://instagram.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-pink-400 transition transform hover:scale-110"
-          >
-            <FaInstagram size={20} />
-          </a>
         </div>
 
-        {/* Copyright */}
-        <p className="text-xs text-gray-500">
-          © {new Date().getFullYear()}
+        {/* Bottom */}
+        <p className="text-xs text-gray-600 mt-2">
+          © {new Date().getFullYear()} • Built & deployed by Resmal
         </p>
 
       </div>
