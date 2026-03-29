@@ -19,13 +19,13 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
       <img 
         src={image} 
         alt={title}
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
 
-      {/* overlay */}
       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all duration-500"></div>
 
-      {/* LIVE BUTTON */}
       {live !== "#" && (
         <a
           href={live}
@@ -37,7 +37,6 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
         </a>
       )}
 
-      {/* badge */}
       <div className="absolute bottom-3 left-3 text-xs bg-black/60 backdrop-blur px-3 py-1 rounded-full text-white">
         Preview
       </div>
@@ -94,7 +93,7 @@ const Projects = () => {
   const projectsList = [
     {
       title: "Zaaish E-Commerce Platform",
-      description: "A full-stack eCommerce application built using the MERN stack with secure JWT authentication, product management, cart functionality, and PayPal payment integration. Developed REST APIs with Node.js and Express, managed state using Redux, and integrated Cloudinary for image handling.",
+      description: "A full-stack MERN eCommerce app with JWT auth, cart, PayPal integration, Redux state management, and Cloudinary image handling.",
       tags: ["React", "Redux", "Node.js", "Express", "MongoDB", "JWT", "PayPal"],
       github: "https://github.com/ResmalMubarakV/zaaish_ecommerce",
       live: "#",
@@ -102,23 +101,23 @@ const Projects = () => {
     },
     {
       title: "Dreamland Properties (Client Project)",
-      description: "A real-world real estate website built for a client to generate leads. Integrated WhatsApp API for direct communication and focused on responsive design and performance optimization.",
-      tags: ["React", "TypeScript", "Tailwind CSS", "WhatsApp API"],
+      description: "Real estate platform with WhatsApp API integration, optimized UI, and high-conversion layout for lead generation.",
+      tags: ["React", "TypeScript", "Tailwind", "WhatsApp API"],
       github: "https://github.com/ResmalMubarakV/dreamlands-properties",
       live: "https://www.dreamlandsproperties.com",
       image: demo2
     },
     {
       title: "Authentication & Session Management",
-      description: "A backend authentication system using Node.js and Express with session-based login, cookie handling, and protected routes.",
-      tags: ["Node.js", "Express", "Sessions", "Authentication"],
+      description: "Node.js + Express authentication system with sessions, cookies, and protected routes.",
+      tags: ["Node.js", "Express", "Sessions"],
       github: "https://github.com/ResmalMubarakV/Login_Project",
       live: "#",
       image: demo3
     },
     {
-      title: "Lazza Ice Cream Website Clone",
-      description: "A fully responsive UI clone focused on pixel-perfect design and smooth responsiveness across devices.",
+      title: "Lazza Ice Cream Clone",
+      description: "Fully responsive UI clone built with HTML, CSS, Bootstrap, and JS with pixel-perfect design.",
       tags: ["HTML", "CSS", "Bootstrap", "JavaScript"],
       github: "https://github.com/ResmalMubarakV/lazza-clone",
       live: "https://resmalmubarakv.github.io/lazza-clone/",
@@ -130,12 +129,10 @@ const Projects = () => {
     <section id="projects" className="relative py-12 md:py-16 bg-black/30">
       <div className="container mx-auto px-5 sm:px-6 md:px-8">
 
-        {/* HEADER */}
         <div className="mb-12">
           <motion.h2 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white"
           >
             Featured <span className="text-gradient">Work</span>
@@ -144,14 +141,12 @@ const Projects = () => {
           <motion.p 
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
             className="text-gray-400 max-w-2xl text-base"
           >
-            Selected projects showcasing full-stack development, real-world integrations, and performance-focused UI.
+            Full-stack projects focused on performance, scalability, and real-world integrations.
           </motion.p>
         </div>
 
-        {/* GRID FIXED */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
           {projectsList.map((project, index) => (
             <ProjectCard key={index} {...project} delay={index * 0.1} />

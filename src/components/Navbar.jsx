@@ -16,11 +16,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'ABOUT', href: '#about' },
+    { name: 'EXPERIENCE', href: '#experience' },
+    { name: 'PROJECTS', href: '#projects' },
+    { name: 'SKILLS', href: '#skills' },
+    { name: 'CONTACT', href: '#contact' },
   ];
 
   return (
@@ -33,37 +33,50 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 flex items-center justify-between">
 
-        {/* Logo (slightly balanced) */}
+        {/* Logo */}
         <a href="#" className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-white tracking-tight">
           Resmal<span className="text-blue-500">.dev</span>
         </a>
 
-        {/* Desktop + Tablet Nav */}
-        <div className="hidden md:flex items-center 
-                        space-x-6 md:space-x-6 lg:space-x-10">
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-6 lg:space-x-10">
 
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               className="
-                text-sm md:text-sm lg:text-base xl:text-lg
-                text-gray-300 hover:text-white 
-                transition duration-300
+                relative
+                text-xs md:text-sm lg:text-sm
+                font-medium
+                text-gray-400
+                transition-all duration-300
+
+                hover:text-transparent
+                hover:bg-clip-text
+                hover:bg-gradient-to-r hover:from-blue-400 hover:to-purple-500
               "
             >
               {link.name}
+
+              {/* Underline Gradient */}
+              <span className="
+                absolute left-0 -bottom-1 w-0 h-[2px]
+                bg-gradient-to-r from-blue-500 to-purple-500
+                transition-all duration-300
+                group-hover:w-full
+              "></span>
             </a>
           ))}
 
-          {/* Resume Button (scaled properly) */}
+          {/* Resume Button */}
           <a
             href="/Resmal_MERN_FullStack_Developer.pdf"
             download
             className="
               flex items-center space-x-2 
               px-4 py-2 md:px-4 md:py-2 lg:px-6 lg:py-2.5
-              text-sm md:text-sm lg:text-base
+              text-xs md:text-sm lg:text-sm
               font-medium text-white 
               bg-gradient-to-r from-blue-600 to-purple-600 
               rounded-lg shadow-lg 
@@ -76,7 +89,7 @@ const Navbar = () => {
 
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Button */}
         <div className="flex md:hidden items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -87,7 +100,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Dropdown (unchanged – already good) */}
+      {/* Mobile Dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
