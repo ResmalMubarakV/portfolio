@@ -11,7 +11,7 @@ const Footer = () => {
             Resmal Mubarak V
           </h3>
           <p className="text-xs text-gray-400">
-            Palakkad, Kerala • Open to remote
+            Palakkad, Kerala, India
           </p>
         </div>
 
