@@ -30,11 +30,11 @@ const Contact = () => {
       "fFWl2ZTAycsCpqRnT"
     )
     .then(() => {
-      toast.success("Message sent 🚀", { id: loadingToast });
+      toast.success("Message sent ✅", { id: loadingToast });
       setFormState({ name: '', email: '', message: '' });
     })
     .catch(() => {
-      toast.error("Something went wrong ❌", { id: loadingToast });
+      toast.error("Something went wrong", { id: loadingToast });
     })
     .finally(() => {
       setLoading(false);
