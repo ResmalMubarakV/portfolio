@@ -88,39 +88,39 @@ const ProjectCard = ({ title, description, tags, github, live, image, delay }) =
 
 const Projects = () => {
   const projectsList = [
-    {
-      title: "Zaaish E-Commerce Platform",
-      description: "Full-stack MERN eCommerce app with JWT auth, cart, PayPal integration, Redux state management, and Cloudinary image handling.",
-      tags: ["React", "Redux", "Node.js", "Express", "MongoDB", "JWT"],
-      github: "https://github.com/ResmalMubarakV/zaaish_ecommerce",
-      live: "#",
-      image: demo1
-    },
-    {
-      title: "Dreamland Properties",
-      description: "Client real estate platform with WhatsApp API integration and high-conversion UI.",
-      tags: ["React", "Tailwind", "WhatsApp API"],
-      github: "https://github.com/ResmalMubarakV/dreamlands-properties",
-      live: "https://www.dreamlandsproperties.com",
-      image: demo2
-    },
-    {
-      title: "Authentication System",
-      description: "Node.js authentication system with sessions, cookies, and protected routes.",
-      tags: ["Node.js", "Express", "Sessions"],
-      github: "https://github.com/ResmalMubarakV/Login_Project",
-      live: "#",
-      image: demo3
-    },
-    {
-      title: "Lazza Ice Cream Clone",
-      description: "Responsive UI clone with pixel-perfect design.",
-      tags: ["HTML", "CSS", "Bootstrap"],
-      github: "https://github.com/ResmalMubarakV/lazza-clone",
-      live: "https://resmalmubarakv.github.io/lazza-clone/",
-      image: demo4
-    }
-  ];
+  {
+    title: "Zaaish E-Commerce Platform",
+    description: "A full-stack MERN eCommerce platform built with scalable architecture and secure JWT authentication. Includes product management, cart functionality, and PayPal integration. Uses Redux for state management and Cloudinary for optimized image handling, ensuring smooth performance and consistent user experience.",
+    tags: ["React", "Redux", "Node.js", "Express", "MongoDB", "JWT"],
+    github: "https://github.com/ResmalMubarakV/zaaish_ecommerce",
+    live: "#",
+    image: demo1
+  },
+  {
+    title: "Dreamland Properties",
+    description: "A real-world client project focused on lead generation and user engagement. Built a fully responsive interface with performance optimization and WhatsApp API integration. Designed for high conversion rates while maintaining smooth navigation, fast loading, and consistent experience across different devices.",
+    tags: ["React", "Tailwind", "WhatsApp API"],
+    github: "https://github.com/ResmalMubarakV/dreamlands-properties",
+    live: "https://www.dreamlandsproperties.com",
+    image: demo2
+  },
+  {
+    title: "Authentication System",
+    description: "A backend authentication system built using Node.js and Express with session-based login and cookie handling. Implements protected routes and secure user flow. Designed with a clean frontend interface, ensuring reliable authentication, proper session management, and smooth interaction across the application.",
+    tags: ["Node.js", "Express", "Sessions"],
+    github: "https://github.com/ResmalMubarakV/Login_Project",
+    live: "#",
+    image: demo3
+  },
+  {
+    title: "Lazza Ice Cream Clone",
+    description: "A fully responsive front-end clone built with HTML, CSS, Bootstrap, and JavaScript. Focused on pixel-perfect layout, structured design, and smooth responsiveness. Ensures consistent user experience across devices while maintaining clean UI structure and modern design standards.",
+    tags: ["HTML", "CSS", "Bootstrap"],
+    github: "https://github.com/ResmalMubarakV/lazza-clone",
+    live: "https://resmalmubarakv.github.io/lazza-clone/",
+    image: demo4
+  }
+];
 
   return (
     <section id="projects" className="py-12 md:py-16">
