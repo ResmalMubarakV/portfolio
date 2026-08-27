@@ -126,7 +126,7 @@ const Hero = () => {
 
           {/* SECONDARY BUTTON: GET RESUME */}
           <MagneticButton
-            href="/Resmal_MERN_FullStack_Developer.pdf"
+            href="/ResmalMubarakV-resume.pdf"
             download
             className="px-8 py-4 rounded-xl bg-[#090A0F]/80 backdrop-blur-md border border-slate-600 hover:border-blue-400 text-white font-medium text-sm tracking-wide flex items-center justify-center gap-2.5 hover:bg-blue-500/15 transition-all duration-300 group"
           >
