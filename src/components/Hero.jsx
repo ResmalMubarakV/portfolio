@@ -1,278 +1,149 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Code2, Server, ShieldCheck, Terminal, Copy, Check } from 'lucide-react';
-import { FaDownload, FaReact, FaNodeJs, FaGitAlt, FaGithub, FaPaypal } from 'react-icons/fa';
-import { SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiPostman, SiVercel, SiCloudinary, SiRedux } from 'react-icons/si';
-import toast from 'react-hot-toast';
+import { ArrowRight, FileText, Sparkles } from 'lucide-react';
+import profileImage from '../assets/profile.webp';
 import MagneticButton from './MagneticButton';
-import TiltCard from './TiltCard';
-
-const techStack = [
-  { name: 'React 19', icon: FaReact, color: 'group-hover:text-[#61DAFB]' },
-  { name: 'JavaScript', icon: SiJavascript, color: 'group-hover:text-[#F7DF1E]' },
-  { name: 'Node.js', icon: FaNodeJs, color: 'group-hover:text-[#339933]' },
-  { name: 'Express.js', icon: SiExpress, color: 'group-hover:text-white' },
-  { name: 'MongoDB', icon: SiMongodb, color: 'group-hover:text-[#47A248]' },
-  { name: 'Tailwind CSS', icon: SiTailwindcss, color: 'group-hover:text-[#06B6D4]' },
-  { name: 'Redux', icon: SiRedux, color: 'group-hover:text-[#764ABC]' },
-  { name: 'Git', icon: FaGitAlt, color: 'group-hover:text-[#F05032]' },
-  { name: 'GitHub', icon: FaGithub, color: 'group-hover:text-white' },
-  { name: 'Postman', icon: SiPostman, color: 'group-hover:text-[#FF6C37]' },
-  { name: 'Vercel', icon: SiVercel, color: 'group-hover:text-white' },
-  { name: 'Cloudinary', icon: SiCloudinary, color: 'group-hover:text-[#3448C5]' },
-  { name: 'PayPal API', icon: FaPaypal, color: 'group-hover:text-[#00457C]' },
-];
 
 const Hero = () => {
   const heroRef = useRef(null);
-  const [copied, setCopied] = useState(false);
-  const [activeCodeLine, setActiveCodeLine] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
 
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.05]);
-
-  const codeSnippet = `const developer = {
-  name: "Resmal Mubarak V",
-  role: "Full Stack MERN Developer",
-  location: "Palakkad, Kerala, India",
-  stack: ["MongoDB", "Express", "React", "Node"],
-  status: "Available for Hire"
-};`;
-
-  const copyCode = () => {
-    navigator.clipboard.writeText(codeSnippet);
-    setCopied(true);
-    toast.success('Copied to clipboard!');
-    setTimeout(() => setCopied(false), 2000);
-  };
+  // SCROLL-LINKED PARALLAX ANIMATIONS
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section
       id="home"
       ref={heroRef}
-      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden pt-32 pb-10 bg-[#050508]"
+      onMouseMove={handleMouseMove}
+      className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden bg-[#090A0F] text-slate-100"
     >
-      {/* AMBIENT MINT EMERALD LIGHTING */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[450px] bg-emerald-500/10 rounded-full blur-[200px] pointer-events-none" />
-
-      {/* MAIN HERO CONTENT */}
+      {/* 1. FULL BLEED MAX-WIDTH & MAX-HEIGHT BACKGROUND IMAGE LAYER */}
       <motion.div
-        style={{ y: heroY, opacity: heroOpacity }}
-        className="max-w-4xl mx-auto px-4 sm:px-6 w-full relative z-10 my-auto text-center flex flex-col items-center"
+        style={{ scale: imageScale, y: imageY }}
+        className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
       >
-        
-        {/* 1. STATUS BADGE */}
+        <motion.img
+          src={profileImage}
+          alt="Resmal Mubarak V"
+          initial={{ scale: 1 }}
+          animate={{ scale: [1, 1.04, 1] }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: 'easeInOut',
+          }}
+          className="w-full h-full object-cover object-center filter contrast-[1.08] saturate-[1.1]"
+        />
+      </motion.div>
+
+      {/* 2. CRITICAL DARK OVERLAY MASK OVER ENTIRE BACKGROUND IMAGE */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#090A0F] via-[#090A0F]/80 to-[#090A0F]/55 z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(9,10,15,0.45)_0%,#090A0F_85%)] z-10 pointer-events-none" />
+
+      {/* AMBIENT GLOW ACCENT */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-600/15 rounded-full blur-[250px] pointer-events-none z-10" />
+
+      {/* CURSOR INTERACTION RADIAL EMERALD GLOW */}
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.12), transparent 80%)`,
+        }}
+      />
+
+      {/* 3. HIGH-CONTRAST LAYERED TEXT CONTENT (Z-20 ABOVE DARK OVERLAY IMAGE - NO SEPARATE INNER CARD) */}
+      <motion.div
+        style={{ y: textY, opacity: textOpacity }}
+        className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center text-center my-auto pt-28 pb-20"
+      >
+        {/* PRE-HEADER (MONOSPACE) */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B0E14] border border-white/10 text-slate-300 text-xs font-mono mb-8"
+          className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#090A0F]/90 border border-blue-500/40 text-blue-400 text-xs sm:text-sm font-mono tracking-wider mb-6 shadow-[0_0_20px_rgba(59,130,246,0.35)] backdrop-blur-md"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-bold text-white tracking-wider">RESMAL MUBARAK V</span>
-          <span className="text-slate-600">//</span>
-          <span className="text-emerald-400">FULL STACK MERN DEVELOPER</span>
+          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
+          <span className="font-semibold uppercase">// RESMAL MUBARAK V. | FULL STACK DEVELOPER | PALAKKAD, KERALA</span>
         </motion.div>
 
-        {/* 2. MINIMAL HIGH-IMPACT HEADLINE */}
+        {/* COMMANDING MAIN HEADLINE */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-tight"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="font-display font-black text-4xl sm:text-6xl lg:text-[76px] text-white tracking-tight leading-[1.05] max-w-4xl drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
         >
-          I BUILD <span className="text-gradient-emerald">DIGITAL PRODUCTS.</span>
+          I BUILD DIGITAL <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-400">
+            PRODUCTS THAT SCALE.
+          </span>
         </motion.h1>
 
-        {/* 3. CONCISE ONE-LINE BIO */}
+        {/* REFINED BIO / SUB-HEADLINE */}
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base sm:text-lg text-slate-300 mt-6 max-w-xl leading-relaxed font-sans"
-        >
-          Full Stack Developer crafting web applications with React, Node.js, Express & MongoDB.
-        </motion.p>
-
-        {/* 4. CLEAN CTAS */}
-        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 w-full sm:w-auto"
+          className="font-sans font-light text-base sm:text-xl lg:text-2xl text-slate-300 max-w-2xl leading-relaxed mt-6 mb-8 drop-shadow-md"
         >
+          Crafting high-performance, production-ready web applications. From resilient backend API architecture to lightning-fast, reactive frontends.
+        </motion.p>
+
+        {/* INTERACTIVE CTA BUTTONS */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
+        >
+          {/* PRIMARY BUTTON: EXPLORE WORK */}
           <MagneticButton
             href="#projects"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.35)] hover:opacity-90 transition group"
+            className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:shadow-[0_0_45px_rgba(59,130,246,0.7)] hover:scale-105 transition-all duration-300 group"
           >
-            <span>EXPLORE WORK</span>
-            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+            <span>Explore Work</span>
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </MagneticButton>
 
+          {/* SECONDARY BUTTON: GET RESUME */}
           <MagneticButton
             href="/Resmal_MERN_FullStack_Developer.pdf"
             download
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#0B0E14] border border-white/10 hover:border-emerald-400/40 text-slate-300 hover:text-white font-mono text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[#111622] transition group"
+            className="px-8 py-4 rounded-xl bg-[#090A0F]/80 backdrop-blur-md border border-slate-600 hover:border-blue-400 text-white font-medium text-sm tracking-wide flex items-center justify-center gap-2.5 hover:bg-blue-500/15 transition-all duration-300 group"
           >
-            <FaDownload size={12} className="text-emerald-400" />
-            <span>GET RESUME</span>
+            <FileText size={16} className="text-slate-400 group-hover:text-blue-400 transition-colors" />
+            <span>Get Resume</span>
           </MagneticButton>
         </motion.div>
-
-        {/* 5. MINIMAL METRICS BAR */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-8 font-mono text-xs text-slate-400"
-        >
-          <span className="flex items-center gap-1.5">
-            <Code2 size={14} className="text-emerald-400" /> 03 Projects
-          </span>
-          <span className="hidden sm:inline">•</span>
-          <span className="flex items-center gap-1.5">
-            <Server size={14} className="text-emerald-400" /> 25+ REST APIs
-          </span>
-          <span className="hidden sm:inline">•</span>
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-emerald-400" /> 100% Quality
-          </span>
-        </motion.div>
-
-        {/* 6. EMBEDDED DEVELOPER.JS CODE IDE BOX */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="w-full max-w-2xl lg:max-w-3xl mt-10 text-left"
-        >
-          <TiltCard maxRotate={4}>
-            <div className="glass-card-lab rounded-2xl border border-white/15 overflow-hidden shadow-2xl bg-[#090d16]/90 backdrop-blur-xl">
-              
-              {/* MACOS WINDOW HEADER */}
-              <div className="flex justify-between items-center px-4 sm:px-6 py-3 bg-[#050508] border-b border-white/10">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-                  <span className="ml-2 font-mono text-xs text-slate-300 flex items-center gap-2">
-                    <Terminal size={14} className="text-emerald-400" /> developer.js
-                  </span>
-                </div>
-
-                <button
-                  onClick={copyCode}
-                  aria-label="Copy code snippet"
-                  className="px-3 py-1 text-slate-300 hover:text-white rounded-lg bg-[#111622] border border-white/10 hover:border-emerald-400/40 transition flex items-center gap-1.5 text-xs font-mono"
-                >
-                  {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                  <span>{copied ? 'Copied' : 'Copy Code'}</span>
-                </button>
-              </div>
-
-              {/* CODE BODY WITH LINE HIGHLIGHTS */}
-              <div className="p-4 sm:p-6 font-mono text-[11px] sm:text-xs md:text-sm leading-relaxed text-slate-300 bg-[#050508] overflow-x-auto select-text">
-                <div
-                  onMouseEnter={() => setActiveCodeLine(1)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`transition-colors py-0.5 rounded px-2 ${activeCodeLine === 1 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">1</span>
-                  <span className="text-emerald-400 font-bold">const</span>{' '}
-                  <span className="text-white font-bold">developer</span>{' '}
-                  <span className="text-slate-400">=</span> <span className="text-amber-300 font-bold">{"{"}</span>
-                </div>
-
-                <div
-                  onMouseEnter={() => setActiveCodeLine(2)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`pl-4 sm:pl-6 transition-colors py-0.5 rounded px-2 ${activeCodeLine === 2 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">2</span>
-                  <span className="text-slate-400">name:</span>{' '}
-                  <span className="text-emerald-300 font-semibold">"Resmal Mubarak V"</span>,
-                </div>
-
-                <div
-                  onMouseEnter={() => setActiveCodeLine(3)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`pl-4 sm:pl-6 transition-colors py-0.5 rounded px-2 ${activeCodeLine === 3 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">3</span>
-                  <span className="text-slate-400">role:</span>{' '}
-                  <span className="text-emerald-300 font-semibold">"Full Stack MERN Developer"</span>,
-                </div>
-
-                <div
-                  onMouseEnter={() => setActiveCodeLine(4)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`pl-4 sm:pl-6 transition-colors py-0.5 rounded px-2 ${activeCodeLine === 4 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">4</span>
-                  <span className="text-slate-400">location:</span>{' '}
-                  <span className="text-slate-200">"Palakkad, Kerala, India"</span>,
-                </div>
-
-                <div
-                  onMouseEnter={() => setActiveCodeLine(5)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`pl-4 sm:pl-6 transition-colors py-0.5 rounded px-2 ${activeCodeLine === 5 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">5</span>
-                  <span className="text-slate-400">stack:</span> <span className="text-amber-300">[</span>
-                  <span className="text-emerald-400 font-semibold">"MongoDB"</span>, <span className="text-emerald-400 font-semibold">"Express"</span>,{' '}
-                  <span className="text-emerald-400 font-semibold">"React"</span>, <span className="text-emerald-400 font-semibold">"Node"</span>
-                  <span className="text-amber-300">]</span>,
-                </div>
-
-                <div
-                  onMouseEnter={() => setActiveCodeLine(6)}
-                  onMouseLeave={() => setActiveCodeLine(null)}
-                  className={`pl-4 sm:pl-6 transition-colors py-0.5 rounded px-2 ${activeCodeLine === 6 ? 'bg-emerald-500/15 text-emerald-200' : ''}`}
-                >
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">6</span>
-                  <span className="text-slate-400">status:</span>{' '}
-                  <span className="text-emerald-400 font-bold">"Available for Hire"</span>
-                </div>
-
-                <div className="py-0.5 px-2">
-                  <span className="text-slate-600 select-none mr-3 sm:mr-4 inline-block w-4 text-right">7</span>
-                  <span className="text-amber-300 font-bold">{"};"}</span>
-                  <span className="inline-block w-2 h-4 bg-emerald-400 ml-2 animate-pulse align-middle" />
-                </div>
-              </div>
-
-            </div>
-          </TiltCard>
-        </motion.div>
-
       </motion.div>
 
-      {/* CONTINUOUS TECH MARQUEE STRIP */}
-      <div className="relative z-10 w-full mt-10 overflow-hidden py-3 border-y border-white/10 bg-[#080B10]">
-        <div className="flex w-max items-center gap-10 sm:gap-14 animate-marquee">
-          {[...techStack, ...techStack].map((tech, i) => {
-            const Icon = tech.icon;
-            return (
-              <div
-                key={i}
-                className="group flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105"
-              >
-                <Icon
-                  className={`w-5 h-5 sm:w-6 sm:h-6 text-slate-500 grayscale transition-all duration-300 group-hover:grayscale-0 ${tech.color}`}
-                />
-                <span className="text-xs font-mono font-medium text-slate-400 group-hover:text-white transition-colors">
-                  {tech.name}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+      {/* FLOATING BOTTOM BEACON STRIP */}
+      <div className="absolute bottom-5 left-6 right-6 z-20 hidden sm:flex items-center justify-between text-xs font-mono text-slate-400 max-w-6xl mx-auto w-full px-4 sm:px-6">
+        <span className="flex items-center gap-2 text-blue-400">
+          <Sparkles size={13} className="animate-spin-slow" /> MERN STACK ARCHITECTURE
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" /> AVAILABLE FOR HIRE
+        </span>
       </div>
     </section>
   );

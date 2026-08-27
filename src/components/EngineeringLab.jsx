@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { Server, Database, Lock, Zap, Layers, ChevronRight, CheckCircle2, Cloud, Cpu, Activity, Terminal } from 'lucide-react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { Server, Database, Lock, Zap, Layers, ChevronRight, CheckCircle2, Cloud, Cpu, Activity, Terminal, Shield, Globe, Award, Sparkles } from 'lucide-react';
 import { FaReact } from 'react-icons/fa';
 import { SiExpress, SiMongodb, SiCloudinary } from 'react-icons/si';
 import Modal from './Modal';
@@ -87,22 +87,23 @@ const ProductSchema = new mongoose.Schema({
     id: "04",
     key: "AUTHENTICATION",
     title: "AUTHENTICATION",
-    subtitle: "JWT Session Tokens & Role Controls",
-    description: "JSON Web Token session guards, salted bcrypt password hashing, and role-based access control (RBAC) for admin fulfillment dashboards.",
+    subtitle: "Global JWT Session Invalidation & RBAC Guards",
+    description: "Global JWT session invalidation tracking passwordChangedAt timestamps, Express Rate Limit brute-force protection, salted bcrypt hashing, and multi-tier RBAC moderation.",
     icon: Lock,
     details: [
-      "JWT bearer token authorization headers",
-      "Salted Bcrypt password hashing",
-      "Role-Based Access Control (RBAC)",
-      "Password confirmation modal guards"
+      "passwordChangedAt global session invalidation",
+      "24-hr Express Rate Limit brute-force guards",
+      "Multi-tier RBAC (pending/approved/suspended)",
+      "Salted Bcrypt password encryption & JWT"
     ],
-    modalContent: "User accounts and administrative privileges protected with salted password hashing, JWT bearer tokens, and strict role guards.",
-    codeSnippet: `// Role-Based Authorization Guard Middleware
-const authorize = (...roles) => (req, res, next) => {
-  if (!roles.includes(req.user.role)) {
-    return res.status(403).json({ message: 'Forbidden: Insufficient privileges' });
+    modalContent: "Enterprise security architecture featuring automatic global session revocation across all active devices upon password reset, strict rate limiting on auth routes, and role-based moderation workflows.",
+    codeSnippet: `// Global JWT Session Revocation via passwordChangedAt
+const changedPasswordAfter = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return JWTTimestamp < changedTimestamp; // Invalidate session token
   }
-  next();
+  return false;
 };`
   },
   {
@@ -127,6 +128,36 @@ export default defineConfig({
     rollupOptions: { output: { manualChunks: { vendor: ['react', 'react-dom', 'framer-motion'] } } }
   }
 });`
+  }
+];
+
+const engineeringImpactData = [
+  {
+    id: "01",
+    category: "01 // ARCHITECTURE",
+    title: "Full-Stack Architecture",
+    subtitle: "MERN Stack Mastery",
+    description: "End-to-end MERN application development featuring Express.js modular routes, MongoDB indexing, and responsive React frontend systems.",
+    icon: Cpu,
+    badges: ["Clean Code Standard", "Full-Stack MERN"]
+  },
+  {
+    id: "02",
+    category: "02 // CLIENT PRODUCTION",
+    title: "Real Client Production",
+    subtitle: "Live Business Deployment",
+    description: "Delivered production real estate portal live with custom domain, automated SEO metadata, AI architectural visuals, and direct WhatsApp lead routing.",
+    icon: Globe,
+    badges: ["Deployed Live", "Real-World Impact"]
+  },
+  {
+    id: "03",
+    category: "03 // SECURITY & APIS",
+    title: "Security & Payment APIs",
+    subtitle: "Enterprise Reliability",
+    description: "Implemented JSON Web Tokens (JWT), role-based access control (RBAC), PayPal REST payment processing, PDF receipt generation, & Cloudinary uploads.",
+    icon: Shield,
+    badges: ["Bank-Grade Auth", "Enterprise Security"]
   }
 ];
 
@@ -243,11 +274,11 @@ const EngineeringLab = () => {
   const nodeOpacities = [node1Opacity, node2Opacity, node3Opacity, node4Opacity, node5Opacity];
 
   return (
-    <section id="engineering" ref={containerRef} className="relative py-28 lg:py-40 bg-[#050508] overflow-hidden">
+    <section id="engineering" ref={containerRef} className="relative py-28 lg:py-40 bg-[#080811] overflow-hidden">
       
       {/* AMBIENT BACKGROUND GLOWS */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[200px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
@@ -259,13 +290,13 @@ const EngineeringLab = () => {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center max-w-3xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-semibold mb-4">
-            <Activity size={14} className="animate-pulse" />
-            <span>SYSTEM ARCHITECTURE & ENGINEERING WORKFLOW</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-mono text-xs font-semibold mb-4 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <Activity size={14} className="animate-pulse text-blue-400" />
+            <span>04 // SYSTEM ARCHITECTURE & ENGINEERING WORKFLOW</span>
           </div>
 
           <h2 className="font-display text-4xl sm:text-6xl font-black text-white tracking-tight">
-            HOW I <span className="text-gradient-emerald">BUILD</span>
+            HOW I <span className="text-gradient-cosmic">BUILD</span>
           </h2>
 
           <p className="text-slate-400 text-sm sm:text-base mt-4 font-sans leading-relaxed">
@@ -278,16 +309,16 @@ const EngineeringLab = () => {
           
           {/* LEFT STICKY SECTION: INTERACTIVE ARCHITECTURE PIPELINE */}
           <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
-            <div className="p-6 rounded-3xl bg-[#090d16]/90 border border-white/15 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+            <div className="p-6 rounded-3xl bg-[#0d0e24]/90 border border-blue-500/30 backdrop-blur-xl shadow-2xl relative overflow-hidden">
               
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
                 <div className="flex items-center gap-2.5 font-mono">
-                  <Cpu size={18} className="text-emerald-400 animate-pulse" />
+                  <Cpu size={18} className="text-blue-400 animate-pulse" />
                   <h3 className="font-display text-xl font-extrabold text-white tracking-tight">
-                    ARCHITECTURE <span className="text-gradient-emerald">FLOW</span>
+                    ARCHITECTURE <span className="text-gradient-violet">FLOW</span>
                   </h3>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                <span className="text-[10px] font-mono font-bold text-blue-300 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30">
                   PIPELINE
                 </span>
               </div>
@@ -295,7 +326,7 @@ const EngineeringLab = () => {
               {/* CONNECTED VERTICAL FLOW TRACK */}
               <div className="relative space-y-3 font-mono text-xs">
                 {/* VERTICAL LASER LINE */}
-                <div className="absolute left-[27px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-500/20 z-0" />
+                <div className="absolute left-[27px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-blue-500 via-indigo-500 to-violet-500 z-0 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
 
                 {architectureFlowNodes.map((node, i) => {
                   const NodeIcon = node.icon;
@@ -308,16 +339,16 @@ const EngineeringLab = () => {
                       onClick={() => setActiveConceptIndex(i)}
                       className={`relative z-10 p-3.5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center justify-between ${
                         isCurrentActive
-                          ? 'bg-[#050508] border-emerald-400/80 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-[1.02]'
-                          : 'bg-[#050508]/80 border-white/10 hover:border-white/20'
+                          ? 'bg-[#080811] border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.35)] scale-[1.02]'
+                          : 'bg-[#0a0b1c]/80 border-white/10 hover:border-white/20'
                       }`}
                     >
                       <div className="flex items-center gap-3.5">
                         <div
-                          className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 transition-colors ${
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 transition-all ${
                             isCurrentActive
-                              ? 'bg-emerald-400 text-slate-950 shadow-[0_0_12px_#10b981]'
-                              : 'bg-[#111622] text-slate-300 border border-white/10'
+                              ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-[0_0_12px_#3b82f6]'
+                              : 'bg-[#14162e] text-slate-300 border border-white/10'
                           }`}
                         >
                           <NodeIcon size={16} />
@@ -325,7 +356,7 @@ const EngineeringLab = () => {
 
                         <div>
                           <div className="font-bold text-white flex items-center gap-2">
-                            <span className="text-emerald-400">{node.id}.</span>
+                            <span className="text-blue-400">{node.id}.</span>
                             <span>{node.title}</span>
                           </div>
                           <div className="text-[10px] text-slate-400">{node.subtitle}</div>
@@ -334,12 +365,12 @@ const EngineeringLab = () => {
 
                       <div className="flex items-center gap-1.5">
                         {isCurrentActive && (
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping inline-block" />
                         )}
                         <span
                           className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
                             isCurrentActive
-                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
                               : 'bg-white/5 text-slate-500'
                           }`}
                         >
@@ -354,9 +385,9 @@ const EngineeringLab = () => {
               {/* PIPELINE FOOTER STATS */}
               <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Terminal size={13} className="text-emerald-400" /> Decoupled Services
+                  <Terminal size={13} className="text-violet-400" /> Decoupled Services
                 </span>
-                <span className="text-emerald-400 font-bold">100% Async</span>
+                <span className="text-cyan-400 font-bold">100% Async</span>
               </div>
             </div>
           </div>

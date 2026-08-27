@@ -6,6 +6,26 @@ import toast from 'react-hot-toast';
 import MagneticButton from './MagneticButton';
 import TiltCard from './TiltCard';
 
+const emailAddress = 'resmalmubarakv@gmail.com';
+
+const validateContactForm = ({ name, email, message }) => {
+  const errors = {};
+
+  if (name.trim().length < 2) {
+    errors.name = 'Please enter your name.';
+  }
+
+  if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+    errors.email = 'Please enter a valid email address.';
+  }
+
+  if (message.trim().length < 10) {
+    errors.message = 'Please add at least 10 characters.';
+  }
+
+  return errors;
+};
+
 const ContactScene = () => {
   const containerRef = useRef(null);
   const [formState, setFormState] = useState({
@@ -13,10 +33,10 @@ const ContactScene = () => {
     email: '',
     message: ''
   });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [loading, setLoading] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
-
-  const emailAddress = "resmalmubarakv@gmail.com";
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,40 +45,83 @@ const ContactScene = () => {
 
   const letsY = useTransform(scrollYProgress, [0.1, 0.4], [40, 0]);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(emailAddress);
-    setCopiedEmail(true);
-    toast.success("COPIED");
-    setTimeout(() => setCopiedEmail(false), 2500);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(emailAddress);
+      setCopiedEmail(true);
+      toast.success('Email copied to clipboard');
+      setTimeout(() => setCopiedEmail(false), 2500);
+    } catch {
+      toast.error('Copy is unavailable in this browser.');
+    }
+  };
+
+  const handleChange = ({ target: { name, value } }) => {
+    const nextFormState = { ...formState, [name]: value };
+    setFormState(nextFormState);
+
+    if (touched[name]) {
+      setErrors((currentErrors) => ({
+        ...currentErrors,
+        [name]: validateContactForm(nextFormState)[name],
+      }));
+    }
+  };
+
+  const handleBlur = ({ target: { name } }) => {
+    setTouched((currentTouched) => ({ ...currentTouched, [name]: true }));
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [name]: validateContactForm(formState)[name],
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validateContactForm(formState);
+
+    setTouched({ name: true, email: true, message: true });
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      toast.error('Please review the highlighted fields.');
+      return;
+    }
+
     setLoading(true);
 
-    const loadingToast = toast.loading("Sending message...");
+    const loadingToast = toast.loading('Sending message...');
 
     emailjs.send(
-      "service_arjvfnr",
-      "template_zl7segi",
+      import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_arjvfnr',
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_zl7segi',
       {
         name: formState.name,
         email: formState.email,
         message: formState.message,
+        reply_to: formState.email,
       },
-      "fFWl2ZTAycsCpqRnT"
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'fFWl2ZTAycsCpqRnT'
     )
     .then(() => {
-      toast.success("Message sent successfully! ✅", { id: loadingToast });
+      toast.success('Message sent successfully!', { id: loadingToast });
       setFormState({ name: '', email: '', message: '' });
+      setTouched({});
+      setErrors({});
     })
     .catch(() => {
-      toast.error("Failed to send message. Please try again.", { id: loadingToast });
+      toast.error('Message could not be sent. Please try again.', { id: loadingToast });
     })
     .finally(() => {
       setLoading(false);
     });
   };
+
+  const inputClassName = (field) => `w-full bg-[#050508] border rounded-2xl px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:ring-2 ${
+    errors[field] && touched[field]
+      ? 'border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/20'
+      : 'border-white/10 focus:border-emerald-400/50 focus:ring-emerald-400/20'
+  }`;
 
   return (
     <section id="contact" ref={containerRef} className="relative py-24 lg:py-36 bg-[#050508] overflow-hidden">
@@ -67,6 +130,11 @@ const ContactScene = () => {
         
         {/* EDITORIAL HEADING */}
         <div className="mb-16 text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-semibold mb-4">
+            <span>05</span>
+            <span className="text-slate-600">//</span>
+            <span>LET'S TALK</span>
+          </div>
           <motion.h2 style={{ y: letsY }} className="font-display font-black text-4xl sm:text-6xl text-white tracking-tight">
             LET'S <span className="text-gradient-emerald">TALK.</span>
           </motion.h2>
@@ -118,7 +186,7 @@ const ContactScene = () => {
           {/* RIGHT CONTACT FORM */}
           <div className="lg:col-span-7">
             <div className="glass-card-lab p-6 sm:p-8 border border-white/15 shadow-2xl relative rounded-3xl">
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -127,14 +195,21 @@ const ContactScene = () => {
                     </label>
                     <input
                       id="name"
+                      name="name"
                       type="text"
                       required
                       autoComplete="name"
                       value={formState.name}
-                      onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      aria-invalid={Boolean(errors.name && touched.name)}
+                      aria-describedby="name-error"
                       placeholder="e.g. Alex Smith"
-                      className="w-full bg-[#050508] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-emerald-400/50 outline-none transition"
+                      className={inputClassName('name')}
                     />
+                    <p id="name-error" className="min-h-5 pt-1 text-[11px] font-mono text-rose-300" aria-live="polite">
+                      {touched.name ? errors.name : ''}
+                    </p>
                   </div>
 
                   <div>
@@ -143,14 +218,21 @@ const ContactScene = () => {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
                       required
                       autoComplete="email"
                       value={formState.email}
-                      onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      aria-invalid={Boolean(errors.email && touched.email)}
+                      aria-describedby="email-error"
                       placeholder="alex@example.com"
-                      className="w-full bg-[#050508] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-emerald-400/50 outline-none transition"
+                      className={inputClassName('email')}
                     />
+                    <p id="email-error" className="min-h-5 pt-1 text-[11px] font-mono text-rose-300" aria-live="polite">
+                      {touched.email ? errors.email : ''}
+                    </p>
                   </div>
                 </div>
 
@@ -160,13 +242,20 @@ const ContactScene = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
                     required
                     value={formState.message}
-                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                    placeholder="Your message..."
-                    className="w-full bg-[#050508] border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-emerald-400/50 resize-none outline-none transition"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    aria-invalid={Boolean(errors.message && touched.message)}
+                    aria-describedby="message-error"
+                    placeholder="Tell me about your project, idea, or role..."
+                    className={`${inputClassName('message')} resize-none`}
                   />
+                  <p id="message-error" className="min-h-5 pt-1 text-[11px] font-mono text-rose-300" aria-live="polite">
+                    {touched.message ? errors.message : ''}
+                  </p>
                 </div>
 
                 <MagneticButton

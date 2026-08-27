@@ -12,22 +12,22 @@ const projectsList = [
   {
     id: 1,
     num: "01",
-    title: "Avora — Enterprise Travel Diary & Memory Vault",
+    title: "Avora — AI-Powered Travel Diary & Memory Platform",
     category: "Full Stack",
-    description: "An enterprise digital travel diary & memory vault platform built to transform scattered travel notes and media into cinematic journal entries. Includes AI-powered storytelling, bank-grade privacy controls, Cloudinary asset optimization, and a full admin control suite with real-time analytics and content moderation.",
+    description: "Architected and deployed a production-grade MERN stack travel platform featuring AI-driven narrative generation from raw user notes, location data, and timestamps into atmospheric journal entries.",
     features: [
-      "AI-Powered Storytelling: Transforms travel notes & media into cinematic journal entries",
-      "Enterprise Admin Suite: Live analytics dashboard, user approval queue & content moderation",
-      "Granular Privacy Vault: Public/Private story publishing with interactive galleries",
-      "Bank-Grade Security: JWT authentication, RBAC, bcrypt, & password-gated admin modals",
-      "Optimized Media Engine: Cloudinary API cloud storage with async upload state banners",
-      "Ultra-Responsive UX: Modern glassmorphism system optimized for 4K desktop to mobile"
+      "AI Travel Memory Summarizer: Integrates LLM APIs to transform unstructured travel notes into rich narrative journals",
+      "Global JWT Session Invalidation: Implemented passwordChangedAt timestamp tracking revoking active sessions across devices",
+      "Brute-Force Protection: Built 24-hour rate limiters on sensitive endpoints using Express Rate Limit",
+      "Multi-Tier RBAC Control: Multi-tier moderation workflows (pending, approved, suspended) for user & content governance",
+      "Cloud Media & Email Infrastructure: Optimized media uploads via Multer & Cloudinary; Resend HTTP API for transactional emails",
+      "Asynchronous Processing: Decoupled frontend input -> Express auth & rate-limit -> External AI API generation -> MongoDB Atlas"
     ],
-    tags: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "Cloudinary API", "JWT Auth", "AI Storytelling"],
-    github: "https://github.com/ResmalMubarakV/avora",
-    live: "https://avorawayfarer.vercel.app",
+    tags: ["React.js", "Vite", "Tailwind CSS", "Node.js", "Express.js", "MongoDB Atlas", "Cloudinary", "Multer", "JWT Auth", "Resend API", "AI Storytelling"],
+    github: "https://github.com/ResmalMubarakV/Avora",
+    live: "https://avorawayfarer.vercel.app/",
     image: avoraImg,
-    badge: "Flagship Enterprise MERN"
+    badge: "AI MERN Flagship"
   },
   {
     id: 2,
@@ -71,6 +71,39 @@ const projectsList = [
 
 const categories = ["All", "Full Stack", "Client Work"];
 
+const projectThemeStyles = {
+  1: {
+    badgeBg: "bg-blue-500/10 text-blue-300 border-blue-500/30",
+    borderHover: "hover:border-blue-500/50 hover:shadow-[0_30px_70px_rgba(59,130,246,0.25)]",
+    numColor: "text-blue-400",
+    titleHover: "group-hover:text-blue-300",
+    checkColor: "text-blue-400",
+    tagColor: "text-blue-300 border-blue-500/20 bg-[#0d1326]",
+    btnBg: "bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 shadow-[0_0_20px_rgba(59,130,246,0.4)]",
+    browserBorder: "border-blue-500/30",
+  },
+  2: {
+    badgeBg: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30",
+    borderHover: "hover:border-indigo-500/50 hover:shadow-[0_30px_70px_rgba(99,102,241,0.25)]",
+    numColor: "text-indigo-400",
+    titleHover: "group-hover:text-indigo-300",
+    checkColor: "text-indigo-400",
+    tagColor: "text-indigo-300 border-indigo-500/20 bg-[#12112e]",
+    btnBg: "bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-600 shadow-[0_0_20px_rgba(99,102,241,0.4)]",
+    browserBorder: "border-indigo-500/30",
+  },
+  3: {
+    badgeBg: "bg-violet-500/10 text-violet-300 border-violet-500/30",
+    borderHover: "hover:border-violet-500/50 hover:shadow-[0_30px_70px_rgba(139,92,246,0.25)]",
+    numColor: "text-violet-400",
+    titleHover: "group-hover:text-violet-300",
+    checkColor: "text-violet-400",
+    tagColor: "text-violet-300 border-violet-500/20 bg-[#170e2b]",
+    btnBg: "bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 shadow-[0_0_20px_rgba(139,92,246,0.4)]",
+    browserBorder: "border-violet-500/30",
+  }
+};
+
 // CINEMATIC CASE STUDY CARD COMPONENT
 const ProjectCardCinematic = ({ project, idx, onSelect }) => {
   const cardRef = useRef(null);
@@ -85,6 +118,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
   const opacity = useTransform(scrollYProgress, [0, 0.25, 0.85, 1], [0.3, 1, 1, 0.3]);
 
   const isImageRight = idx % 2 !== 0;
+  const theme = projectThemeStyles[project.id] || projectThemeStyles[1];
 
   return (
     <motion.div
@@ -92,12 +126,12 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
       style={{ opacity }}
       className="w-full col-span-12 mb-16 sm:mb-24"
     >
-      <div className="glass-card-spotlight group rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/15 hover:border-red-500/50 hover:shadow-[0_30px_70px_rgba(239,68,68,0.22)] transition-all duration-500 relative overflow-hidden">
+      <div className={`glass-card-cosmic group rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/15 ${theme.borderHover} transition-all duration-500 relative overflow-hidden`}>
         
         {/* NUMBER & CATEGORY HEADER */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10 relative z-10 font-mono">
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-black text-red-500">
+            <span className={`text-2xl font-black ${theme.numColor}`}>
               {project.num}
             </span>
             <span className="text-xs text-slate-400 uppercase tracking-widest">
@@ -105,7 +139,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
             </span>
           </div>
 
-          <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+          <span className={`px-3.5 py-1 rounded-full text-xs font-semibold border ${theme.badgeBg}`}>
             {project.badge}
           </span>
         </div>
@@ -116,24 +150,24 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
           {/* SCREENSHOT BROWSER MOCKUP FRAME (7 COLS) */}
           <div className={`lg:col-span-7 ${isImageRight ? 'lg:order-2' : 'lg:order-1'}`}>
             <TiltCard maxRotate={5}>
-              <div className="relative rounded-2xl bg-slate-950 border border-red-500/30 overflow-hidden shadow-2xl group/browser">
+              <div className={`relative rounded-2xl bg-[#080811] border ${theme.browserBorder} overflow-hidden shadow-2xl group/browser`}>
                 
                 {/* BROWSER TOP BAR */}
-                <div className="px-4 py-3 bg-slate-950 border-b border-white/10 flex items-center justify-between">
+                <div className="px-4 py-3 bg-[#0d0e1e] border-b border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-red-500 inline-block shadow-[0_0_8px_#ef4444]" />
+                    <span className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-[0_0_8px_#f43f5e]" />
                     <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />
                     <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
                   </div>
 
-                  <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-slate-900 border border-white/10 font-mono text-xs text-slate-300 max-w-[280px] sm:max-w-[340px] truncate shadow-inner">
-                    <Lock size={12} className="text-red-400 shrink-0" />
+                  <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-[#080811] border border-white/10 font-mono text-xs text-slate-300 max-w-[280px] sm:max-w-[340px] truncate shadow-inner">
+                    <Lock size={12} className="text-violet-400 shrink-0" />
                     <span className="truncate">{project.live ? project.live.replace('https://', '') : project.github}</span>
                   </div>
 
                   <button
                     onClick={() => onSelect(project)}
-                    className="text-slate-400 hover:text-red-400 p-1 rounded-lg hover:bg-white/10 transition flex items-center gap-1 text-xs font-mono"
+                    className="text-slate-400 hover:text-cyan-400 p-1 rounded-lg hover:bg-white/10 transition flex items-center gap-1 text-xs font-mono"
                     title="Expand View"
                   >
                     <Maximize2 size={14} />
@@ -141,7 +175,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                 </div>
 
                 {/* IMAGE PREVIEW WITH SMOOTH SCALE TRANSFORM */}
-                <div className="relative p-3 sm:p-5 bg-slate-950 flex items-center justify-center min-h-[260px] sm:min-h-[340px] lg:min-h-[380px] overflow-hidden">
+                <div className="relative p-3 sm:p-5 bg-[#080811] flex items-center justify-center min-h-[260px] sm:min-h-[340px] lg:min-h-[380px] overflow-hidden">
                   <motion.img
                     style={{ scale: imageScale }}
                     src={project.image}
@@ -156,7 +190,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="absolute bottom-5 right-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xl backdrop-blur-md hover:scale-105 transition duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)]"
+                      className={`absolute bottom-5 right-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold ${theme.btnBg} text-white shadow-xl backdrop-blur-md hover:scale-105 transition duration-300`}
                     >
                       <span>Live Site</span>
                       <ArrowUpRight size={15} />
@@ -171,7 +205,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
           {/* SPECS & CONTENT (5 COLS) */}
           <div className={`lg:col-span-5 flex flex-col justify-between ${isImageRight ? 'lg:order-1' : 'lg:order-2'}`}>
             <div>
-              <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white group-hover:text-red-400 transition-colors leading-tight mb-4">
+              <h3 className={`font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white ${theme.titleHover} transition-colors leading-tight mb-4`}>
                 {project.title}
               </h3>
 
@@ -183,7 +217,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
               <div className="space-y-2.5 mb-6">
                 {project.features.slice(0, 4).map((feat, i) => (
                   <div key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-200">
-                    <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 size={16} className={`${theme.checkColor} shrink-0 mt-0.5`} />
                     <span className="leading-snug">{feat}</span>
                   </div>
                 ))}
@@ -194,7 +228,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                 {project.tags.map((tag, i) => (
                   <span
                     key={i}
-                    className="text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-950 border border-white/10 text-red-300 shadow-sm"
+                    className={`text-xs font-mono px-3 py-1.5 rounded-xl border ${theme.tagColor} shadow-sm`}
                   >
                     {tag}
                   </span>
@@ -210,7 +244,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:scale-105 transition"
+                    className={`px-5 py-2.5 rounded-xl ${theme.btnBg} text-white text-xs font-bold flex items-center gap-2 hover:scale-105 transition`}
                   >
                     <ExternalLink size={14} /> Visit Live Site
                   </MagneticButton>
@@ -220,7 +254,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-950 border border-white/10 text-xs font-semibold text-slate-200 hover:text-red-400 hover:border-red-500/40 transition"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0d0e1e] border border-white/10 text-xs font-semibold text-slate-200 hover:text-cyan-300 hover:border-cyan-500/40 transition"
                 >
                   <FaGithub size={15} />
                   <span>Source Code</span>
@@ -229,7 +263,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
 
               <button
                 onClick={() => onSelect(project)}
-                className="px-4 py-2.5 rounded-xl bg-slate-950 border border-white/10 hover:border-red-500/40 text-xs font-semibold text-slate-300 hover:text-red-400 flex items-center gap-1.5 transition ml-auto"
+                className="px-4 py-2.5 rounded-xl bg-[#0d0e1e] border border-white/10 hover:border-cyan-500/40 text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center gap-1.5 transition ml-auto"
               >
                 <span>Full Specs</span>
                 <ChevronRight size={14} />
@@ -262,17 +296,23 @@ const Projects = () => {
   );
 
   return (
-    <section id="projects" ref={containerRef} className="relative py-24 lg:py-36 bg-[#050508] overflow-hidden">
+    <section id="projects" ref={containerRef} className="relative py-28 lg:py-40 bg-[#080811] overflow-hidden">
       
-      {/* AMBIENT SOFT RED LIGHT */}
-      <div className="absolute bottom-1/4 left-1/3 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none" />
+      {/* AMBIENT SUNSET ORB LIGHT */}
+      <div className="absolute bottom-1/4 left-1/3 w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* CLEAN SECTION HEADER */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }} className="mb-16 text-center max-w-3xl mx-auto">
-          <h2 className="font-display text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
-            PROJECTS
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-mono text-xs font-semibold mb-4 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <span>02</span>
+            <span className="text-slate-600">//</span>
+            <span>SELECTED WORK & PRODUCTION SHOWCASE</span>
+          </div>
+
+          <h2 className="font-display text-4xl sm:text-6xl font-black text-white tracking-tight">
+            SELECTED <span className="text-gradient-cosmic">PROJECTS</span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mt-4 leading-relaxed">
             Cinematic case studies of enterprise MERN applications, eCommerce platforms, and real-world client deployments.
@@ -287,8 +327,8 @@ const Projects = () => {
               onClick={() => setFilter(cat)}
               className={`px-6 py-2.5 rounded-full text-xs font-semibold transition-all duration-300 ${
                 filter === cat
-                  ? 'bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)] scale-105'
-                  : 'bg-slate-950/60 text-slate-400 border border-white/10 hover:text-white hover:border-white/20'
+                  ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-105'
+                  : 'bg-[#0d0e1e]/80 text-slate-400 border border-white/10 hover:text-white hover:border-white/20'
               }`}
             >
               {cat}

@@ -2,9 +2,9 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import { ExternalLink, CheckCircle2, ChevronRight, Lock, Maximize2, ArrowUpRight } from 'lucide-react';
-import avoraImg from '../assets/avora.webp';
-import demo1 from '../assets/demo1.webp';
-import dreamlandsImg from '../assets/dreamlands.webp';
+import avoraImg from '../assets/avora-optimized.jpg';
+import demo1 from '../assets/demo1-optimized.jpg';
+import dreamlandsImg from '../assets/dreamlands-optimized.jpg';
 import TiltCard from './TiltCard';
 import MagneticButton from './MagneticButton';
 import Modal from './Modal';
@@ -217,17 +217,17 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-wrap items-center gap-2.5">
+            <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 {project.github && (
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#111622] border border-white/15 text-xs font-bold font-mono text-slate-200 hover:text-emerald-400 hover:border-emerald-400/40 transition shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#111622] border border-white/15 text-[11px] sm:text-xs font-bold font-mono text-slate-200 hover:text-emerald-400 hover:border-emerald-400/40 transition shadow-sm"
                   >
-                    <FaGithub size={15} />
+                    <FaGithub size={14} />
                     <span>Source Code</span>
                   </a>
                 )}
@@ -238,9 +238,9 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold font-mono text-emerald-400 hover:bg-emerald-500/20 transition"
+                    className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[11px] sm:text-xs font-bold font-mono text-emerald-400 hover:bg-emerald-500/20 transition"
                   >
-                    <ExternalLink size={14} />
+                    <ExternalLink size={13} />
                     <span>Live Demo</span>
                   </a>
                 )}
@@ -251,7 +251,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                   e.stopPropagation();
                   onSelect(project);
                 }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold text-xs font-mono flex items-center gap-1 transition shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:opacity-90 ml-auto"
+                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold text-[11px] sm:text-xs font-mono flex items-center gap-1 transition shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:opacity-90"
               >
                 <span>EXPLORE SPECS</span>
                 <ChevronRight size={14} />
@@ -285,6 +285,11 @@ const ProjectsReel = () => {
         
         {/* SECTION HEADER */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }} className="mb-16 text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-semibold mb-4">
+            <span>03</span>
+            <span className="text-slate-600">//</span>
+            <span>FEATURED WORK</span>
+          </div>
           <h2 className="font-display text-4xl sm:text-6xl font-black text-white tracking-tight">
             FEATURED <span className="text-gradient-emerald">WORK</span>
           </h2>

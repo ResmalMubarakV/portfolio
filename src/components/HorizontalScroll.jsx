@@ -58,64 +58,106 @@ const HorizontalScroll = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-70%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[220vh] bg-[#000000] hidden md:block">
-      
-      {/* PINNED VIEWPORT CONTAINER */}
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        
-        {/* HEADER OVERLAY */}
-        <div className="absolute top-8 left-10 right-10 z-20 flex items-center justify-between font-mono text-xs text-[#2997FF]">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#2997FF] animate-pulse" />
-            <span>Horizontal Capability Track</span>
+    <>
+      {/* DESKTOP PINNED HORIZONTAL TRACK */}
+      <section ref={targetRef} className="relative h-[220vh] bg-[#050508] hidden md:block border-y border-white/10">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+
+          {/* HEADER OVERLAY */}
+          <div className="absolute top-8 left-10 right-10 z-20 flex items-center justify-between font-mono text-xs text-emerald-400">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-bold tracking-wider">HORIZONTAL CAPABILITY TRACK</span>
+            </div>
+
+            <div className="px-3.5 py-1 rounded-full bg-[#0B0E14] border border-white/12 text-slate-400">
+              <span>Scroll Horizontally (01 - 06)</span>
+            </div>
           </div>
 
-          <div className="px-3.5 py-1 rounded-full bg-[#121217] border border-white/12 text-slate-400">
-            <span>Scroll Horizontally (01 - 06)</span>
-          </div>
+          {/* HORIZONTAL MOVING TRACK */}
+          <motion.div style={{ x }} className="flex gap-6 px-12 sm:px-20 w-max">
+            {items.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="w-[360px] sm:w-[400px] shrink-0 glass-card-lab p-8 rounded-[28px] border border-white/12 hover:border-emerald-400/50 hover:shadow-[0_0_40px_rgba(16,185,129,0.2)] transition-all duration-500 flex flex-col justify-between h-[340px] bg-[#090d16]/90 backdrop-blur-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-3xl font-black text-emerald-400">
+                      {item.num}
+                    </span>
+                    <div className="w-12 h-12 rounded-2xl bg-[#050508] border border-white/10 text-emerald-400 flex items-center justify-center shadow-inner">
+                      <Icon size={24} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-display text-2xl font-extrabold text-white mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="font-mono text-xs text-emerald-400 font-bold mb-3">
+                      {item.subtitle}
+                    </p>
+                    <p className="text-slate-300 text-sm leading-relaxed font-sans">
+                      {item.detail}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex justify-between items-center">
+                    <span>CAPABILITY SPEC</span>
+                    <span className="text-emerald-400 font-bold">{item.num}/06</span>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+
         </div>
+      </section>
 
-        {/* HORIZONTAL MOVING TRACK */}
-        <motion.div style={{ x }} className="flex gap-6 px-12 sm:px-20 w-max">
+      {/* MOBILE RESPONSIVE CARDS GRID */}
+      <section className="block md:hidden py-16 px-4 bg-[#050508] border-y border-white/10">
+        <div className="max-w-md mx-auto space-y-4">
+          <div className="mb-6 font-mono text-xs text-emerald-400 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-bold tracking-wider uppercase">CORE CAPABILITIES (01 - 06)</span>
+          </div>
+
           {items.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="w-[360px] sm:w-[400px] shrink-0 glass-card-apple p-8 rounded-[28px] border border-white/12 hover:border-[#2997FF]/40 hover:shadow-[0_0_40px_rgba(41,151,255,0.2)] transition-all duration-500 flex flex-col justify-between h-[340px]"
+                className="p-6 rounded-2xl bg-[#090d16] border border-white/12 flex flex-col justify-between gap-4"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-3xl font-black text-[#2997FF]">
+                  <span className="font-mono text-2xl font-black text-emerald-400">
                     {item.num}
                   </span>
-                  <div className="w-12 h-12 rounded-2xl bg-[#000000] border border-white/10 text-[#2997FF] flex items-center justify-center">
-                    <Icon size={24} />
+                  <div className="w-10 h-10 rounded-xl bg-[#050508] border border-white/10 text-emerald-400 flex items-center justify-center">
+                    <Icon size={20} />
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-display text-2xl font-extrabold text-white mb-2">
+                  <h3 className="font-display text-xl font-bold text-white mb-1">
                     {item.title}
                   </h3>
-                  <p className="font-mono text-xs text-[#2997FF] font-bold mb-3">
+                  <p className="font-mono text-xs text-emerald-400 font-bold mb-2">
                     {item.subtitle}
                   </p>
-                  <p className="text-slate-300 text-sm leading-relaxed font-sans">
+                  <p className="text-slate-300 text-xs leading-relaxed font-sans">
                     {item.detail}
                   </p>
-                </div>
-
-                <div className="pt-4 border-t border-white/10 font-mono text-[11px] text-slate-500 flex justify-between items-center">
-                  <span>TECHNICAL HIGHLIGHT</span>
-                  <span className="text-[#2997FF] font-bold">{item.num}/06</span>
                 </div>
               </div>
             );
           })}
-        </motion.div>
-
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 };
 

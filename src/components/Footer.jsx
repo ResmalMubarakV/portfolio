@@ -8,15 +8,15 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t border-white/10 py-12 bg-[#030305] font-mono text-xs text-slate-400">
+    <footer className="relative border-t border-white/10 py-12 bg-[#080811] font-mono text-xs text-slate-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* BRAND & LOCATION */}
         <div className="text-center md:text-left">
           <a href="#home" className="font-display font-black text-lg text-white tracking-tight">
-            RESMAL<span className="text-emerald-400 font-bold">.DEV</span>
+            RESMAL<span className="text-cyan-400 font-bold">.DEV</span>
           </a>
-          <p className="text-slate-500 mt-1">
+          <p className="text-slate-400 mt-1">
             Palakkad, Kerala, India • Full Stack MERN Developer
           </p>
         </div>
@@ -29,7 +29,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="w-10 h-10 rounded-xl bg-[#0B0E14] border border-white/10 text-slate-400 hover:text-white hover:border-emerald-400/40 hover:bg-[#111622] flex items-center justify-center transition-all duration-300 hover:scale-110"
+              className="w-10 h-10 rounded-xl bg-[#0d0e24] border border-white/12 text-slate-400 hover:text-white hover:border-violet-400/50 hover:bg-[#14162e] flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <FaGithub size={18} />
             </a>
@@ -39,7 +39,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="w-10 h-10 rounded-xl bg-[#0B0E14] border border-white/10 text-slate-400 hover:text-emerald-400 hover:border-emerald-400/40 hover:bg-[#111622] flex items-center justify-center transition-all duration-300 hover:scale-110"
+              className="w-10 h-10 rounded-xl bg-[#0d0e24] border border-white/12 text-slate-400 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-[#14162e] flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <FaLinkedin size={18} />
             </a>
@@ -48,7 +48,7 @@ const Footer = () => {
           <button
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:scale-110 active:scale-95 transition-all duration-300"
+            className="w-10 h-10 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-cyan-500 text-white font-bold flex items-center justify-center shadow-[0_0_18px_rgba(139,92,246,0.4)] hover:scale-110 active:scale-95 transition-all duration-300"
           >
             <ArrowUp size={18} />
           </button>
@@ -56,7 +56,7 @@ const Footer = () => {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
         <p>© {new Date().getFullYear()} Resmal Mubarak V. All rights reserved.</p>
         <p>Engineered with React 19 & Tailwind CSS</p>
       </div>

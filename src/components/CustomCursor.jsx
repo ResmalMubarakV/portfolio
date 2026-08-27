@@ -2,16 +2,21 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const CustomCursor = () => {
   const cursorRef = useRef(null);
-  const [isDesktop, setIsDesktop] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(() => (
+    typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+  ));
   const [cursorState, setCursorState] = useState({
     hovered: false,
     label: null,
   });
 
   useEffect(() => {
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setIsDesktop(false);
-      return;
+    const pointerQuery = window.matchMedia('(pointer: fine)');
+    const updatePointerSupport = (event) => setIsDesktop(event.matches);
+
+    pointerQuery.addEventListener('change', updatePointerSupport);
+    if (!pointerQuery.matches) {
+      return () => pointerQuery.removeEventListener('change', updatePointerSupport);
     }
 
     let reqId = null;
@@ -57,6 +62,7 @@ const CustomCursor = () => {
     window.addEventListener('mouseover', onMouseOver, { passive: true });
 
     return () => {
+      pointerQuery.removeEventListener('change', updatePointerSupport);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseover', onMouseOver);
       if (reqId) cancelAnimationFrame(reqId);
