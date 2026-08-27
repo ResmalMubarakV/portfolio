@@ -159,18 +159,32 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
                     className="w-full h-auto max-h-[440px] object-contain rounded-xl shadow-2xl transition-transform duration-500"
                   />
 
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-emerald-400 text-slate-950 shadow-xl hover:bg-emerald-300 transition duration-300 font-mono"
-                    >
-                      <span>LIVE DEMO</span>
-                      <ArrowUpRight size={14} />
-                    </a>
-                  )}
+                  <div className="absolute bottom-4 right-4 flex items-center gap-2 z-20">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#050508]/90 border border-white/20 text-slate-200 backdrop-blur-md hover:border-emerald-400 hover:text-emerald-400 transition duration-300 font-mono shadow-lg"
+                      >
+                        <FaGithub size={13} />
+                        <span>CODE</span>
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-400 text-slate-950 shadow-xl hover:bg-emerald-300 transition duration-300 font-mono"
+                      >
+                        <span>LIVE DEMO</span>
+                        <ArrowUpRight size={13} />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
               </div>
@@ -203,19 +217,43 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-              <span className="font-mono text-xs text-slate-400 group-hover:text-white transition-colors">
-                Click for case study
-              </span>
+            <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2.5">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#111622] border border-white/15 text-xs font-bold font-mono text-slate-200 hover:text-emerald-400 hover:border-emerald-400/40 transition shadow-sm"
+                  >
+                    <FaGithub size={15} />
+                    <span>Source Code</span>
+                  </a>
+                )}
+
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold font-mono text-emerald-400 hover:bg-emerald-500/20 transition"
+                  >
+                    <ExternalLink size={14} />
+                    <span>Live Demo</span>
+                  </a>
+                )}
+              </div>
 
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelect(project);
                 }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold text-xs font-mono flex items-center gap-1 transition shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:opacity-90"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-bold text-xs font-mono flex items-center gap-1 transition shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:opacity-90 ml-auto"
               >
-                <span>EXPLORE</span>
+                <span>EXPLORE SPECS</span>
                 <ChevronRight size={14} />
               </button>
             </div>
