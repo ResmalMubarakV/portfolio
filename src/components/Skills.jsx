@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Code2, Server, Database, Wrench, CheckCircle } from 'lucide-react';
 import { FaReact, FaNodeJs, FaGitAlt, FaGithub, FaHtml5, FaCss3Alt, FaPaypal } from 'react-icons/fa';
-import { SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiPostman, SiVercel, SiCloudinary, SiRedux } from 'react-icons/si';
+import { SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiPostman, SiVercel, SiCloudinary, SiRedux, SiRender } from 'react-icons/si';
 
 const categories = [
   {
@@ -53,6 +53,7 @@ const categories = [
       { name: "Vite", level: "Advanced", icon: Wrench, color: "#646CFF" },
       { name: "Postman", level: "Advanced", icon: SiPostman, color: "#FF6C37" },
       { name: "Vercel", level: "Advanced", icon: SiVercel, color: "#FFFFFF" },
+      { name: "Render", level: "Advanced", icon: SiRender, color: "#46E3B7" },
       { name: "Performance Optimization", level: "Advanced", icon: Wrench, color: "#10B981" },
     ]
   }

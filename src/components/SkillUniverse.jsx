@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaReact, FaNodeJs, FaGitAlt, FaGithub, FaPaypal } from 'react-icons/fa';
-import { SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiPostman, SiVercel, SiCloudinary, SiRedux, SiTypescript } from 'react-icons/si';
+import { SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiPostman, SiVercel, SiCloudinary, SiRedux, SiTypescript, SiRender, SiVite } from 'react-icons/si';
 import { ExternalLink } from 'lucide-react';
 import Modal from './Modal';
 
@@ -135,6 +135,26 @@ const skillsList = [
     whatItIs: 'A frontend cloud platform for static and serverless web deployments.',
     usage: 'Production frontend deployment, SSL configuration, automated builds, and serverless hosting.',
     projects: ['Avora', 'Zaaish']
+  },
+  {
+    id: 'render',
+    name: 'Render',
+    category: 'Cloud Backend',
+    icon: SiRender,
+    color: '#46E3B7',
+    whatItIs: 'A cloud application platform for hosting web services, APIs, and background workers.',
+    usage: 'Production backend deployment for Express Node.js web services, SSL security, and environment configuration.',
+    projects: ['Avora', 'Zaaish']
+  },
+  {
+    id: 'vite',
+    name: 'Vite',
+    category: 'Build System',
+    icon: SiVite,
+    color: '#646CFF',
+    whatItIs: 'A next-generation frontend build tool providing lightning-fast HMR and optimized production bundles.',
+    usage: 'Production frontend bundling, module hot-reloading, tree-shaking, and asset pipeline optimization.',
+    projects: ['Avora', 'Zaaish', 'Dreamlands Properties']
   }
 ];
 
