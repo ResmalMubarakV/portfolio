@@ -1,86 +1,151 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Server, Database, Lock, CreditCard, LayoutTemplate, Zap } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Code2, Server, ShieldCheck, Activity, Globe } from 'lucide-react';
+import TiltCard from './TiltCard';
 
-const ImpactCard = ({ icon: Icon, title, description, delay }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.5, delay }}
-    className="glass-card p-6 flex flex-col items-start group hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(59,130,246,0.15)] transition-all duration-300"
-  >
-    <div className="p-3 rounded-xl bg-white/5 text-blue-400 mb-4 group-hover:scale-110 transition-transform">
-      <Icon size={24} />
-    </div>
-    <h3 className="text-xl font-semibold mb-2 text-gray-100">{title}</h3>
-    <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
-  </motion.div>
-);
+const EliteStatCard = ({ stat, idx }) => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = stat.icon;
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 35, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: idx * 0.12, type: 'spring', damping: 20 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
+    >
+      <TiltCard maxRotate={6}>
+        <div className="glass-card-spotlight p-8 sm:p-10 rounded-3xl border border-white/15 hover:border-red-500/50 hover:shadow-[0_25px_60px_rgba(239,68,68,0.2)] transition-all duration-500 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+          
+          {/* MOUSE SPOTLIGHT RADIAL OVERLAY */}
+          {isHovered && (
+            <div
+              className="pointer-events-none absolute -inset-px transition-opacity duration-300 rounded-3xl"
+              style={{
+                background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(239, 68, 68, 0.18), transparent 80%)`,
+              }}
+            />
+          )}
+
+          {/* TOP HEADER: ICON & INDEX TAG */}
+          <div className="flex items-center justify-between mb-6 relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300 shadow-inner">
+              <Icon size={24} />
+            </div>
+
+            <span className="font-mono text-[11px] text-slate-500 group-hover:text-red-400 transition-colors uppercase tracking-widest bg-slate-950/80 px-3 py-1 rounded-full border border-white/10">
+              {stat.index}
+            </span>
+          </div>
+
+          {/* TITLE & DESCRIPTION */}
+          <div className="relative z-10 my-auto">
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white group-hover:text-red-400 transition-colors tracking-tight leading-snug">
+              {stat.title}
+            </h3>
+
+            <p className="font-mono text-xs font-bold text-red-400 tracking-wider uppercase mt-3">
+              {stat.subtitle}
+            </p>
+
+            <p className="text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed font-sans">
+              {stat.detail}
+            </p>
+          </div>
+
+          {/* HOVER GLOW BASELINE BAR */}
+          <div className="mt-6 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400 relative z-10">
+            <span className="flex items-center gap-1.5 group-hover:text-red-300 transition-colors">
+              <Activity size={12} className="text-emerald-400 animate-pulse" /> {stat.highlight}
+            </span>
+            <span className="group-hover:text-white transition-colors">{stat.badge}</span>
+          </div>
+
+        </div>
+      </TiltCard>
+    </motion.div>
+  );
+};
 
 const Experience = () => {
-  const impacts = [
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const headerY = useTransform(scrollYProgress, [0, 0.3], [30, 0]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+
+  const stats = [
     {
-      icon: LayoutTemplate,
-      title: "Full-Stack Applications",
-      description: "Built and deployed multiple end-to-end MERN stack applications serving real client needs."
+      title: "Full-Stack Architecture",
+      subtitle: "MERN Stack Mastery",
+      detail: "End-to-end MERN application development featuring Express.js modular routes, MongoDB indexing, and responsive React frontend systems.",
+      icon: Code2,
+      index: "01 // ARCHITECTURE",
+      highlight: "Clean Code Standard",
+      badge: "Full-Stack MERN"
     },
     {
-      icon: Server,
-      title: "25+ REST APIs",
-      description: "Designed robust, scalable API architectures capable of handling complex database operations."
+      title: "Real Client Production",
+      subtitle: "Live Business Deployment",
+      detail: "Delivered production real estate portal live with custom domain, automated SEO metadata, AI architectural visuals, and direct WhatsApp lead routing.",
+      icon: Globe,
+      index: "02 // CLIENT PRODUCTION",
+      highlight: "Deployed Live",
+      badge: "Real-World Impact"
     },
     {
-      icon: Lock,
-      title: "Authentication Systems",
-      description: "Implemented secure JWT and session-based authentication with role-based access control."
-    },
-    {
-      icon: CreditCard,
-      title: "Payment Integrations",
-      description: "Seamlessly integrated PayPal gateway for secure ecommerce transactions."
-    },
-    {
-      icon: Database,
-      title: "Real Client Delivery",
-      description: "Successfully delivered Dreamland Properties project with lead capture system."
-    },
-    {
-      icon: Zap,
-      title: "Performance Optimization",
-      description: "Improved metrics, conversion rates, and overall user experience across projects."
+      title: "Security & Payment APIs",
+      subtitle: "Enterprise Reliability",
+      detail: "Implemented JSON Web Tokens (JWT), role-based access control (RBAC), PayPal REST payment processing, PDF receipt generation, & Cloudinary uploads.",
+      icon: ShieldCheck,
+      index: "03 // SECURITY & APIS",
+      highlight: "Bank-Grade Auth",
+      badge: "Enterprise Security"
     }
   ];
 
   return (
-    <section id="experience" className="relative py-12 md:py-16 bg-black/50">
-      <div className="container mx-auto px-5 sm:px-6 md:px-8">
-        <div className="mb-16 text-center">
-          <motion.h2 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-white"
-          >
-            Proven <span className="text-gradient">Impact</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto"
-          >
-            Delivering measurable results through technical excellence and strategic implementation.
-          </motion.p>
-        </div>
+    <section id="experience" ref={containerRef} className="relative py-28 lg:py-40 bg-slate-950/70 overflow-hidden">
+      
+      {/* BACKGROUND ACCENT LIGHTING */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[180px] pointer-events-none" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {impacts.map((impact, index) => (
-            <ImpactCard key={index} {...impact} delay={index * 0.1} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        {/* CLEAN SECTION HEADER */}
+        <motion.div style={{ y: headerY, opacity: headerOpacity }} className="mb-16 text-center max-w-3xl mx-auto">
+          <h2 className="font-display text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
+            IMPACT
+          </h2>
+          <p className="text-slate-400 text-sm sm:text-base mt-4 leading-relaxed font-sans">
+            Key engineering capabilities and production deliverables for enterprise applications and real-world clients.
+          </p>
+        </motion.div>
+
+        {/* ELITE STATS DASHBOARD GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {stats.map((stat, idx) => (
+            <EliteStatCard key={idx} stat={stat} idx={idx} />
           ))}
         </div>
+
       </div>
     </section>
   );

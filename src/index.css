@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,52 +13,60 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #0a0a0a;
-    color: #f3f4f6;
+    background-color: #030305;
+    color: #F5F5F0;
     overflow-x: hidden;
   }
   body {
-    background-color: #0a0a0a;
-    color: #f3f4f6;
+    background-color: #030305;
+    color: #F5F5F0;
     overflow-x: hidden;
-    @apply antialiased font-sans;
+    @apply antialiased font-sans selection:bg-emerald-500/30 selection:text-emerald-200;
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-[#1a1a1a]/40 backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  .glass-card-lab {
+    @apply bg-gradient-to-br from-[#0B0E14]/90 via-[#07090F]/90 to-[#040508]/90 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.95)] transition-all duration-500 relative overflow-hidden;
   }
-  .glass-card {
-    @apply bg-[#1a1a1a]/30 backdrop-blur-sm border border-white/5 rounded-2xl shadow-xl transition-all duration-300;
+
+  .text-gradient-emerald {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200;
   }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500;
+
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-300 to-emerald-300;
+  }
+
+  .lab-grid-pattern {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #030305;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  background: #0E121B;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: #10b981;
 }
 
-/* Infinte Marquee Animations */
+/* Infinite Marquee Animation */
 @keyframes marquee {
-  0% { transform: translateX(0); }
+  0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
