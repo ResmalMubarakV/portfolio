@@ -69,20 +69,21 @@ const Hero = () => {
         }}
       />
 
-      {/* 3. HIGH-CONTRAST LAYERED TEXT CONTENT (Z-20 ABOVE DARK OVERLAY IMAGE - NO SEPARATE INNER CARD) */}
+      {/* 3. HIGH-CONTRAST LAYERED TEXT CONTENT (Z-20 ABOVE DARK OVERLAY IMAGE) */}
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
-        className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center text-center my-auto pt-28 pb-20"
+        className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center text-center my-auto pt-24 pb-16 sm:pt-28 sm:pb-20"
       >
-        {/* PRE-HEADER (MONOSPACE) */}
+        {/* PRE-HEADER (MONOSPACE - COMPACT ON MOBILE, FULL ON DESKTOP) */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#090A0F]/90 border border-blue-500/40 text-blue-400 text-xs sm:text-sm font-mono tracking-wider mb-6 shadow-[0_0_20px_rgba(59,130,246,0.35)] backdrop-blur-md"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4.5 sm:py-2 rounded-full bg-[#090A0F]/90 border border-blue-500/40 text-blue-400 text-[11px] sm:text-sm font-mono tracking-wider mb-4 sm:mb-6 shadow-[0_0_20px_rgba(59,130,246,0.35)] backdrop-blur-md"
         >
           <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
-          <span className="font-semibold uppercase">// RESMAL MUBARAK V. | FULL STACK DEVELOPER | PALAKKAD, KERALA</span>
+          <span className="font-semibold uppercase sm:hidden">// RESMAL MUBARAK V.</span>
+          <span className="font-semibold uppercase hidden sm:inline">// RESMAL MUBARAK V. | FULL STACK DEVELOPER | PALAKKAD, KERALA</span>
         </motion.div>
 
         {/* COMMANDING MAIN HEADLINE */}
@@ -90,48 +91,48 @@ const Hero = () => {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="font-display font-black text-4xl sm:text-6xl lg:text-[76px] text-white tracking-tight leading-[1.05] max-w-4xl drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
+          className="font-display font-black text-3xl sm:text-6xl lg:text-[76px] text-white tracking-tight leading-[1.1] sm:leading-[1.05] max-w-4xl drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
         >
-          I BUILD DIGITAL <br />
+          I BUILD DIGITAL <br className="hidden sm:inline" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-blue-400">
             PRODUCTS THAT SCALE.
           </span>
         </motion.h1>
 
-        {/* REFINED BIO / SUB-HEADLINE */}
+        {/* REFINED BIO / SUB-HEADLINE (HIDDEN ON MOBILE TO KEEP MINIMAL, SHOWN ON DESKTOP) */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="font-sans font-light text-base sm:text-xl lg:text-2xl text-slate-300 max-w-2xl leading-relaxed mt-6 mb-8 drop-shadow-md"
+          className="hidden sm:block font-sans font-light text-base sm:text-xl lg:text-2xl text-slate-300 max-w-2xl leading-relaxed mt-6 mb-8 drop-shadow-md"
         >
           Crafting high-performance, production-ready web applications. From resilient backend API architecture to lightning-fast, reactive frontends.
         </motion.p>
 
-        {/* INTERACTIVE CTA BUTTONS */}
+        {/* INTERACTIVE CTA BUTTONS (COMPACT ON MOBILE, STANDARD ON DESKTOP) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
+          className="flex flex-row items-center justify-center gap-3 mt-6 sm:mt-0 w-full sm:w-auto"
         >
           {/* PRIMARY BUTTON: EXPLORE WORK */}
           <MagneticButton
             href="#projects"
-            className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:shadow-[0_0_45px_rgba(59,130,246,0.7)] hover:scale-105 transition-all duration-300 group"
+            className="px-5 py-3 sm:px-8 sm:py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:shadow-[0_0_45px_rgba(59,130,246,0.7)] hover:scale-105 transition-all duration-300 group"
           >
             <span>Explore Work</span>
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={14} className="sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
           </MagneticButton>
 
           {/* SECONDARY BUTTON: GET RESUME */}
           <MagneticButton
             href="/ResmalMubarakV-resume.pdf"
             download
-            className="px-8 py-4 rounded-xl bg-[#090A0F]/80 backdrop-blur-md border border-slate-600 hover:border-blue-400 text-white font-medium text-sm tracking-wide flex items-center justify-center gap-2.5 hover:bg-blue-500/15 transition-all duration-300 group"
+            className="px-5 py-3 sm:px-8 sm:py-4 rounded-xl bg-[#090A0F]/80 backdrop-blur-md border border-slate-600 hover:border-blue-400 text-white font-medium text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 hover:bg-blue-500/15 transition-all duration-300 group"
           >
-            <FileText size={16} className="text-slate-400 group-hover:text-blue-400 transition-colors" />
-            <span>Get Resume</span>
+            <FileText size={14} className="sm:w-4 sm:h-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
+            <span>Resume</span>
           </MagneticButton>
         </motion.div>
       </motion.div>
