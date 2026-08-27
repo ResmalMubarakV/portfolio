@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Mail } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -42,6 +42,14 @@ const Footer = () => {
               className="w-10 h-10 rounded-xl bg-[#0d0e24] border border-white/12 text-slate-400 hover:text-blue-400 hover:border-blue-400/50 hover:bg-[#14162e] flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <FaLinkedin size={18} />
+            </a>
+
+            <a
+              href="mailto:resmalmubarakv@gmail.com"
+              aria-label="Direct Email"
+              className="w-10 h-10 rounded-xl bg-[#0d0e24] border border-white/12 text-slate-400 hover:text-blue-400 hover:border-blue-400/50 hover:bg-[#14162e] flex items-center justify-center transition-all duration-300 hover:scale-110"
+            >
+              <Mail size={18} />
             </a>
           </div>
 
