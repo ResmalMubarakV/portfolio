@@ -44,7 +44,7 @@ const projectsList = [
     ],
     tags: ["React", "Vite", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "JWT Auth", "Cloudinary", "PayPal REST API"],
     github: "https://github.com/ResmalMubarakV/zaaish_ecommerce",
-    live: null,
+    live: "https://zaaish-ecommerce.vercel.app",
     image: demo1,
     badge: "Full Stack MERN"
   },
