@@ -73,7 +73,6 @@ function App() {
         <About />
         <EngineeringLab />
         <SkillUniverse />
-        <CodePanel />
         <StatsSection />
         <ProjectsReel />
         <HorizontalScroll />
