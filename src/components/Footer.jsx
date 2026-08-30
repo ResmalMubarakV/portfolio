@@ -14,7 +14,7 @@ const Footer = () => {
         {/* BRAND & LOCATION */}
         <div className="text-center md:text-left">
           <a href="#home" className="font-display font-black text-lg text-white tracking-tight">
-            RESMAL<span className="text-blue-400 font-bold">.DEV</span>
+            RESMAL <span className="text-blue-400 font-bold">MUBARAK V</span>
           </a>
           <p className="text-slate-400 mt-1">
             Palakkad, Kerala, India • Full Stack MERN Developer

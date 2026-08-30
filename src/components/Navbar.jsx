@@ -57,7 +57,7 @@ const Navbar = () => {
           className="flex items-center gap-2.5 font-mono text-sm font-bold text-white hover:text-blue-400 transition-colors"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_10px_#60a5fa]" />
-          <span className="tracking-wider">RESMAL<span className="text-blue-400">.DEV</span></span>
+          <span className="tracking-wider">RESMAL <span className="text-blue-400">MUBARAK V</span></span>
         </a>
 
         {/* CENTER DESKTOP NAV LINKS */}
