@@ -42,6 +42,9 @@ const Hero = () => {
         <motion.img
           src={profileImage}
           alt="Resmal Mubarak V"
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
           initial={{ scale: 1 }}
           animate={{ scale: [1, 1.04, 1] }}
           transition={{
