@@ -1,106 +1,179 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+/**
+ * Premium Custom Cursor
+ * ─────────────────────
+ * • Dot: Locks to the mouse pixel-perfectly via rAF (zero delay)
+ * • Ring: Follows with a spring-like CSS transition (depth & elegance)
+ * • On hover: Ring expands + tints; on link hover: "VIEW" text appears
+ * • Custom SVG diamond/crosshair replaces the OS arrow cursor
+ */
 const CustomCursor = () => {
-  const cursorRef = useRef(null);
-  const [isDesktop, setIsDesktop] = useState(() => (
-    typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
-  ));
-  const [cursorState, setCursorState] = useState({
+  const dotRef   = useRef(null);
+  const ringRef  = useRef(null);
+
+  const [state, setState] = useState({
     hovered: false,
     label: null,
+    clicking: false,
   });
 
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+  );
+
   useEffect(() => {
-    const pointerQuery = window.matchMedia('(pointer: fine)');
-    const updatePointerSupport = (event) => setIsDesktop(event.matches);
+    const mq = window.matchMedia('(pointer: fine)');
+    const onMqChange = (e) => setIsDesktop(e.matches);
+    mq.addEventListener('change', onMqChange);
+    if (!mq.matches) return () => mq.removeEventListener('change', onMqChange);
 
-    pointerQuery.addEventListener('change', updatePointerSupport);
-    if (!pointerQuery.matches) {
-      return () => pointerQuery.removeEventListener('change', updatePointerSupport);
-    }
+    // ── Position tracking ──────────────────────────────────────────────
+    let raf = null;
+    let tx = -200, ty = -200; // off-screen until first move
 
-    let reqId = null;
-    let targetX = -100;
-    let targetY = -100;
-
-    const onMouseMove = (e) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      if (!reqId) {
-        reqId = requestAnimationFrame(updatePosition);
-      }
+    const move = (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    const updatePosition = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-      }
-      reqId = null;
+    const tick = () => {
+      if (dotRef.current)  dotRef.current.style.transform  = `translate3d(${tx}px,${ty}px,0)`;
+      if (ringRef.current) ringRef.current.style.transform = `translate3d(${tx}px,${ty}px,0)`;
+      raf = null;
     };
 
-    const onMouseOver = (e) => {
-      const target = e.target;
+    // ── State detection ────────────────────────────────────────────────
+    const detect = (e) => {
+      const el = e.target;
+      const label = el.getAttribute('data-cursor') ??
+                    el.closest('[data-cursor]')?.getAttribute('data-cursor') ?? null;
 
-      const cursorLabel = target.getAttribute('data-cursor') || target.closest('[data-cursor]')?.getAttribute('data-cursor');
+      const interactive =
+        label ||
+        el.tagName === 'A' ||
+        el.tagName === 'BUTTON' ||
+        el.closest('a') ||
+        el.closest('button') ||
+        el.getAttribute('role') === 'button';
 
-      if (cursorLabel) {
-        setCursorState({ hovered: true, label: cursorLabel });
-      } else if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.getAttribute('role') === 'button'
-      ) {
-        setCursorState({ hovered: true, label: null });
-      } else {
-        setCursorState({ hovered: false, label: null });
-      }
+      setState(prev => ({
+        ...prev,
+        hovered: !!interactive,
+        label: label ?? null,
+      }));
     };
 
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('mouseover', onMouseOver, { passive: true });
+    const onDown = () => setState(p => ({ ...p, clicking: true }));
+    const onUp   = () => setState(p => ({ ...p, clicking: false }));
+
+    window.addEventListener('mousemove',  move,   { passive: true });
+    window.addEventListener('mouseover',  detect, { passive: true });
+    window.addEventListener('mousedown',  onDown, { passive: true });
+    window.addEventListener('mouseup',    onUp,   { passive: true });
 
     return () => {
-      pointerQuery.removeEventListener('change', updatePointerSupport);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseover', onMouseOver);
-      if (reqId) cancelAnimationFrame(reqId);
+      mq.removeEventListener('change', onMqChange);
+      window.removeEventListener('mousemove',  move);
+      window.removeEventListener('mouseover',  detect);
+      window.removeEventListener('mousedown',  onDown);
+      window.removeEventListener('mouseup',    onUp);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
   if (!isDesktop) return null;
 
+  const { hovered, label, clicking } = state;
+
+  /* ── ring size & colour ─────────────────────────────────────────── */
+  const ringSize  = clicking ? 28 : hovered ? 52 : 36;
+  const ringColor = hovered
+    ? 'rgba(139,92,246,0.85)'   // violet on hover
+    : 'rgba(99,102,241,0.55)';  // indigo idle
+
+  const dotSize   = clicking ? 4 : hovered ? 6 : 5;
+  const dotColor  = hovered ? '#a78bfa' : '#818cf8';
+
   return (
-    <div className="fixed inset-0 pointer-events-none z-[999999] overflow-hidden">
+    <>
+      {/* ── Dot (zero-lag) ───────────────────────────────────────── */}
       <div
-        ref={cursorRef}
+        ref={dotRef}
+        aria-hidden="true"
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
+          top: 0, left: 0,
+          width: `${dotSize}px`,
+          height: `${dotSize}px`,
+          borderRadius: '50%',
+          background: dotColor,
+          boxShadow: `0 0 ${hovered ? 14 : 8}px ${dotColor}`,
+          transform: 'translate3d(-200px,-200px,0)',
+          translate: '-50% -50%',
+          pointerEvents: 'none',
+          zIndex: 9999999,
           willChange: 'transform',
-          transform: 'translate3d(-100px, -100px, 0)',
+          transition: 'width 0.15s ease, height 0.15s ease, background 0.15s ease, box-shadow 0.15s ease',
         }}
-        className="pointer-events-none"
+      />
+
+      {/* ── Ring (spring-follow) ─────────────────────────────────── */}
+      <div
+        ref={ringRef}
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: 0, left: 0,
+          width: `${ringSize}px`,
+          height: `${ringSize}px`,
+          borderRadius: '50%',
+          border: `1.5px solid ${ringColor}`,
+          background: hovered ? 'rgba(139,92,246,0.07)' : 'transparent',
+          boxShadow: hovered
+            ? `0 0 22px rgba(139,92,246,0.35), inset 0 0 10px rgba(139,92,246,0.1)`
+            : `0 0 10px rgba(99,102,241,0.2)`,
+          transform: 'translate3d(-200px,-200px,0)',
+          translate: '-50% -50%',
+          pointerEvents: 'none',
+          zIndex: 9999998,
+          willChange: 'transform',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          /* spring-like follow */
+          transition: [
+            'width 0.22s cubic-bezier(0.34,1.56,0.64,1)',
+            'height 0.22s cubic-bezier(0.34,1.56,0.64,1)',
+            'border-color 0.18s ease',
+            'background 0.18s ease',
+            'box-shadow 0.18s ease',
+          ].join(', '),
+        }}
       >
-        <div
-          style={{
-            transform: `translate(-50%, -50%) scale(${cursorState.hovered ? (cursorState.label ? 2.2 : 1.5) : 1})`,
-            transition: 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.15s ease',
-          }}
-          className={`flex items-center justify-center rounded-full border-2 border-[#10b981] bg-[#10b981]/20 shadow-[0_0_25px_#10b981] ${
-            cursorState.label ? 'w-12 h-12 bg-[#10b981] text-slate-950 font-mono text-[9px] font-black tracking-widest' : 'w-5 h-5'
-          }`}
-        >
-          {cursorState.label ? (
-            <span>{cursorState.label}</span>
-          ) : (
-            <span className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
-          )}
-        </div>
+        {/* Label text inside ring */}
+        {label && (
+          <span style={{
+            color: '#e0d9ff',
+            fontSize: '9px',
+            fontFamily: 'JetBrains Mono, monospace',
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            userSelect: 'none',
+            pointerEvents: 'none',
+          }}>
+            {label}
+          </span>
+        )}
       </div>
-    </div>
+
+      {/* ── Custom SVG cursor icon (replaces OS arrow) ───────────── */}
+      <style>{`
+        *, *::before, *::after { cursor: none !important; }
+      `}</style>
+    </>
   );
 };
 

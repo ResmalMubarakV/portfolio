@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import AmbientBackground from './components/AmbientBackground';
@@ -12,6 +12,40 @@ import SkillUniverse from './components/SkillUniverse';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+
+/**
+ * SectionReveal — Wraps a section and adds the `in-view` class when
+ * it enters the viewport, triggering a smooth fade+slide entrance.
+ * Uses IntersectionObserver (no Framer Motion overhead).
+ */
+function SectionReveal({ children, delay = 0 }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Small delay lets the browser paint before animating
+          setTimeout(() => el.classList.add('in-view'), delay);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.07 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [delay]);
+
+  return (
+    <div ref={ref} className="section-reveal">
+      {children}
+    </div>
+  );
+}
 
 function App() {
   const { scrollYProgress } = useScroll();
@@ -41,7 +75,7 @@ function App() {
       {/* AMBIENT BACKGROUND WITH POINTER RADIAL LIGHTING */}
       <AmbientBackground />
 
-      {/* INTERACTIVE SIGNAL HALO CURSOR */}
+      {/* PREMIUM CUSTOM CURSOR */}
       <CustomCursor />
 
       {/* SMOOTH TOP SCROLL PROGRESS BAR */}
@@ -53,15 +87,34 @@ function App() {
       {/* FIXED GLASSMORPHISM NAVBAR */}
       <Navbar />
 
-      {/* MAIN CONTENT SECTIONS */}
+      {/* MAIN CONTENT SECTIONS — each wrapped in SectionReveal */}
       <main id="main-content" className="relative z-10">
+        {/* Hero is above-the-fold — no reveal wrapper */}
         <Hero />
-        <About />
-        <Projects />
-        <SkillUniverse />
-        <EngineeringLab />
-        <Experience />
-        <Contact />
+
+        <SectionReveal delay={0}>
+          <About />
+        </SectionReveal>
+
+        <SectionReveal delay={0}>
+          <Projects />
+        </SectionReveal>
+
+        <SectionReveal delay={0}>
+          <SkillUniverse />
+        </SectionReveal>
+
+        <SectionReveal delay={0}>
+          <EngineeringLab />
+        </SectionReveal>
+
+        <SectionReveal delay={0}>
+          <Experience />
+        </SectionReveal>
+
+        <SectionReveal delay={0}>
+          <Contact />
+        </SectionReveal>
       </main>
 
       {/* FOOTER */}
