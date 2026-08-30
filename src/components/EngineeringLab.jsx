@@ -363,11 +363,13 @@ const EngineeringLab = () => {
   }, []);
 
   return (
-    <section id="engineering" className="relative py-28 lg:py-40 bg-[#080811] overflow-hidden">
+    <section id="engineering" className="relative py-28 lg:py-40 bg-[#080811]">
 
-      {/* AMBIENT GLOWS */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[200px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[180px] pointer-events-none" />
+      {/* AMBIENT GLOWS — own overflow-hidden wrapper so sticky is never broken */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[200px]" />
+        <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[180px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
 
