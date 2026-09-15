@@ -5,6 +5,8 @@ import { ExternalLink, CheckCircle2, ChevronRight, X, Lock, Maximize2, ArrowUpRi
 import avoraImg from '../assets/avora.webp';
 import demo1 from '../assets/demo1.webp';
 import dreamlandsImg from '../assets/dreamlands.webp';
+import emiVaultImg from '../assets/emivault.webp';
+import kulukkicheetImg from '../assets/kulukkicheet.webp';
 import TiltCard from './TiltCard';
 import MagneticButton from './MagneticButton';
 
@@ -66,10 +68,50 @@ const projectsList = [
     live: "https://www.dreamlandsproperties.com",
     image: dreamlandsImg,
     badge: "Real Client Production"
+  },
+  {
+    id: 4,
+    num: "04",
+    title: "EMI Vault — Personal Loan & Installment Tracker",
+    category: "Mobile Development",
+    isCompact: true,
+    description: "A privacy-focused Flutter mobile app for managing personal loans and EMI schedules, with multi-loan tracking, payment status, reminders, monthly routines, and a responsive mobile-first interface.",
+    features: [
+      "Multi-loan EMI and installment tracking",
+      "Automatic EMI schedule and due-date handling",
+      "Mark individual EMIs Paid/Unpaid",
+      "Customizable EMI notifications and reminders",
+      "Local-first personal data persistence",
+      "Responsive Android UI"
+    ],
+    tags: ["Flutter", "Dart", "Android", "Local Storage", "Notifications", "Responsive UI", "Mobile UX", "Date & Time Logic"],
+    github: "https://github.com/ResmalMubarakV/emi-vault",
+    image: emiVaultImg,
+    badge: "Flutter / Personal Utility"
+  },
+  {
+    id: 5,
+    num: "05",
+    title: "Kulukkicheet — Monthly Chit-Fund Collection Checklist",
+    category: "Mobile Development",
+    isCompact: true,
+    description: "A minimalist monthly chit-fund collection checklist designed to make tracking contributions simple, with one-tap collection status and Cash/GPay method tracking.",
+    features: [
+      "Simple one-page monthly collection checklist",
+      "One-tap Paid/Unpaid tracking",
+      "Cash/GPay collection-method tracking",
+      "Automatic monthly checklist reset",
+      "Monthly collection history",
+      "Simple add/edit/delete people management"
+    ],
+    tags: ["Flutter", "Dart", "Android", "Local Storage", "Responsive UI", "CRUD", "Mobile UX", "Date & Time Logic"],
+    github: "https://github.com/ResmalMubarakV/kulukkiCheet",
+    image: kulukkicheetImg,
+    badge: "Flutter / Personal Utility"
   }
 ];
 
-const categories = ["All", "Full Stack", "Client Work"];
+const categories = ["All", "Full Stack", "Client Work", "Mobile Development"];
 
 const projectThemeStyles = {
   1: {
@@ -101,7 +143,163 @@ const projectThemeStyles = {
     tagColor: "text-violet-300 border-violet-500/20 bg-[#170e2b]",
     btnBg: "bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 shadow-[0_0_20px_rgba(139,92,246,0.4)]",
     browserBorder: "border-violet-500/30",
+  },
+  4: {
+    badgeBg: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
+    borderHover: "hover:border-emerald-500/50 hover:shadow-[0_30px_70px_rgba(16,185,129,0.25)]",
+    numColor: "text-emerald-400",
+    titleHover: "group-hover:text-emerald-300",
+    checkColor: "text-emerald-400",
+    tagColor: "text-emerald-300 border-emerald-500/20 bg-[#0a1a17]",
+    btnBg: "bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 shadow-[0_0_20px_rgba(16,185,129,0.4)]",
+    browserBorder: "border-emerald-500/30",
+  },
+  5: {
+    badgeBg: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    borderHover: "hover:border-amber-500/50 hover:shadow-[0_30px_70px_rgba(245,158,11,0.25)]",
+    numColor: "text-amber-400",
+    titleHover: "group-hover:text-amber-300",
+    checkColor: "text-amber-400",
+    tagColor: "text-amber-300 border-amber-500/20 bg-[#1a140a]",
+    btnBg: "bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 shadow-[0_0_20px_rgba(245,158,11,0.4)]",
+    browserBorder: "border-amber-500/30",
   }
+};
+
+// COMPACT UTILITY PROJECT CARD (SIDE-BY-SIDE GRID)
+const ProjectCardCompact = ({ project, onSelect }) => {
+  const cardRef = useRef(null);
+  const theme = projectThemeStyles[project.id] || projectThemeStyles[1];
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 25 }}
+      transition={{ duration: 0.4 }}
+      className={`glass-card-cosmic group rounded-3xl p-5 sm:p-7 border border-white/15 ${theme.borderHover} transition-all duration-500 relative overflow-hidden flex flex-col justify-between h-full`}
+    >
+      <div>
+        {/* NUMBER & CATEGORY HEADER */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-3 border-b border-white/10 relative z-10 font-mono">
+          <div className="flex items-center gap-2.5">
+            <span className={`text-xl sm:text-2xl font-black ${theme.numColor}`}>
+              {project.num}
+            </span>
+            <span className="text-[11px] text-slate-400 uppercase tracking-widest">
+              // {project.category}
+            </span>
+          </div>
+
+          <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${theme.badgeBg}`}>
+            {project.badge}
+          </span>
+        </div>
+
+        {/* COMPACT INNER GRID: PHONE MOCKUP PREVIEW + SPECS */}
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center mb-5">
+          {/* PHONE MOCKUP FRAME (5 COLS) */}
+          <div className="sm:col-span-5 flex justify-center">
+            <TiltCard maxRotate={6}>
+              <div
+                onClick={() => onSelect(project)}
+                className={`relative rounded-2xl bg-[#080811] border ${theme.browserBorder} p-2 overflow-hidden shadow-xl group/phone cursor-pointer max-w-[160px] sm:max-w-[180px] w-full`}
+              >
+                {/* PHONE STATUS HEADER */}
+                <div className="flex items-center justify-between gap-1 mb-1.5 px-2 py-0.5 rounded-full bg-[#0d0e1e] border border-white/10 text-[9px] font-mono text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>App</span>
+                  </span>
+                  <Lock size={10} className="text-violet-400" />
+                </div>
+
+                <div className="relative overflow-hidden rounded-xl bg-slate-950 flex items-center justify-center p-1">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto max-h-[220px] object-contain transition-transform duration-500 group-hover/phone:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/phone:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                    <span className="px-2.5 py-1 rounded-lg bg-black/80 border border-white/20 text-white text-[10px] font-mono flex items-center gap-1 shadow-lg">
+                      <Maximize2 size={11} /> View Specs
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </TiltCard>
+          </div>
+
+          {/* DETAILS & FEATURES (7 COLS) */}
+          <div className="sm:col-span-7 flex flex-col justify-between">
+            <div>
+              <h3
+                onClick={() => onSelect(project)}
+                className={`font-display text-lg sm:text-xl font-extrabold text-white ${theme.titleHover} transition-colors leading-tight mb-2.5 cursor-pointer`}
+              >
+                {project.title}
+              </h3>
+
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 line-clamp-3">
+                {project.description}
+              </p>
+
+              {/* KEY FEATURES */}
+              <div className="space-y-1.5 mb-3.5">
+                {project.features.slice(0, 3).map((feat, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs text-slate-200">
+                    <CheckCircle2 size={14} className={`${theme.checkColor} shrink-0 mt-0.5`} />
+                    <span className="leading-tight line-clamp-1">{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* COMPACT TAGS */}
+              <div className="flex flex-wrap gap-1.5">
+                {project.tags.slice(0, 4).map((tag, i) => (
+                  <span
+                    key={i}
+                    className={`text-[11px] font-mono px-2.5 py-0.5 rounded-lg border ${theme.tagColor}`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+                {project.tags.length > 4 && (
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-lg border border-white/10 text-slate-400 bg-white/5">
+                    +{project.tags.length - 4}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ACTION CTAS */}
+      <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-3 mt-auto">
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0d0e1e] border border-white/10 text-xs font-semibold text-slate-200 hover:text-cyan-300 hover:border-cyan-500/40 transition"
+        >
+          <FaGithub size={14} />
+          <span>Source Code</span>
+        </a>
+
+        <button
+          onClick={() => onSelect(project)}
+          className="px-3.5 py-2 rounded-xl bg-[#0d0e1e] border border-white/10 hover:border-cyan-500/40 text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center gap-1 transition ml-auto"
+        >
+          <span>Full Specs</span>
+          <ChevronRight size={13} />
+        </button>
+      </div>
+    </motion.div>
+  );
 };
 
 // CINEMATIC CASE STUDY CARD COMPONENT
@@ -162,7 +360,7 @@ const ProjectCardCinematic = ({ project, idx, onSelect }) => {
 
                   <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-[#080811] border border-white/10 font-mono text-xs text-slate-300 max-w-[280px] sm:max-w-[340px] truncate shadow-inner">
                     <Lock size={12} className="text-violet-400 shrink-0" />
-                    <span className="truncate">{project.live ? project.live.replace('https://', '') : project.github}</span>
+                    <span className="truncate">{(project.live || project.github)?.replace(/^https?:\/\//, '')}</span>
                   </div>
 
                   <button
@@ -295,6 +493,10 @@ const Projects = () => {
     (p) => filter === "All" || p.category === filter
   );
 
+  const selectedTheme = selectedProject
+    ? projectThemeStyles[selectedProject.id] || projectThemeStyles[1]
+    : projectThemeStyles[1];
+
   return (
     <section id="projects" ref={containerRef} className="relative py-28 lg:py-40 bg-[#080811] overflow-hidden">
       
@@ -315,7 +517,7 @@ const Projects = () => {
             SELECTED <span className="text-gradient-cosmic">PROJECTS</span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mt-4 leading-relaxed">
-            Cinematic case studies of enterprise MERN applications, eCommerce platforms, and real-world client deployments.
+            Cinematic case studies of enterprise MERN applications, production mobile utilities, and real-world client deployments.
           </p>
         </motion.div>
 
@@ -336,10 +538,10 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* CINEMATIC FULL-WIDTH CASE STUDIES */}
+        {/* CINEMATIC FULL-WIDTH CASE STUDIES & COMPACT UTILITY CARDS */}
         <div className="grid grid-cols-12 gap-y-8">
           <AnimatePresence>
-            {filteredProjects.map((project, idx) => (
+            {filteredProjects.filter(p => !p.isCompact).map((project, idx) => (
               <ProjectCardCinematic
                 key={project.id}
                 project={project}
@@ -347,6 +549,33 @@ const Projects = () => {
                 onSelect={(proj) => setSelectedProject(proj)}
               />
             ))}
+          </AnimatePresence>
+
+          {/* COMPACT UTILITY APPS (SIDE-BY-SIDE 2-COLUMN GRID) */}
+          <AnimatePresence>
+            {filteredProjects.some(p => p.isCompact) && (
+              <div className="col-span-12 mb-16 sm:mb-24">
+                {filter === "All" && (
+                  <div className="flex items-center gap-4 my-8">
+                    <div className="h-[1px] bg-gradient-to-r from-emerald-500/40 via-amber-500/40 to-transparent flex-1" />
+                    <span className="font-mono text-xs text-slate-400 tracking-wider uppercase px-4 py-1.5 rounded-full bg-[#0d0e1e] border border-white/10 shadow-inner">
+                      // Mobile Utilities & Personal Apps
+                    </span>
+                    <div className="h-[1px] bg-gradient-to-l from-emerald-500/40 via-amber-500/40 to-transparent flex-1" />
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+                  {filteredProjects.filter(p => p.isCompact).map((project) => (
+                    <ProjectCardCompact
+                      key={project.id}
+                      project={project}
+                      onSelect={(proj) => setSelectedProject(proj)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </AnimatePresence>
         </div>
 
@@ -360,7 +589,7 @@ const Projects = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-slate-950 border border-red-500/30 rounded-3xl max-w-4xl w-full p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto shadow-2xl"
+              className={`bg-slate-950 border ${selectedTheme.browserBorder} rounded-3xl max-w-4xl w-full p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto shadow-2xl`}
             >
               <button
                 onClick={() => setSelectedProject(null)}
@@ -371,7 +600,7 @@ const Projects = () => {
               </button>
 
               <div className="flex items-center gap-2 mb-2 font-mono">
-                <span className="text-xs font-bold text-red-400 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20">
+                <span className={`text-xs font-bold px-3 py-1 rounded-full border ${selectedTheme.badgeBg}`}>
                   {selectedProject.badge}
                 </span>
                 <span className="text-xs text-slate-400">
@@ -384,7 +613,7 @@ const Projects = () => {
               </h3>
 
               {/* HIGH RES MODAL SCREENSHOT */}
-              <div className="my-6 rounded-2xl border border-white/15 bg-slate-950 p-2 sm:p-4 overflow-hidden shadow-2xl">
+              <div className="my-6 rounded-2xl border border-white/15 bg-slate-950 p-2 sm:p-4 overflow-hidden shadow-2xl flex items-center justify-center">
                 <img
                   src={selectedProject.image}
                   alt={`${selectedProject.title} screenshot`}
@@ -401,7 +630,7 @@ const Projects = () => {
                 <div className="space-y-2.5">
                   {selectedProject.features.map((feat, i) => (
                     <div key={i} className="flex items-start gap-3 text-sm text-slate-300">
-                      <CheckCircle2 size={16} className="text-red-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 size={16} className={`${selectedTheme.checkColor} shrink-0 mt-0.5`} />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -412,7 +641,7 @@ const Projects = () => {
                 <h4 className="font-semibold text-white text-base mb-2">Technologies Used</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.tags.map((tag, i) => (
-                    <span key={i} className="text-xs font-mono px-3.5 py-1.5 rounded-lg bg-slate-900 border border-white/10 text-red-300">
+                    <span key={i} className={`text-xs font-mono px-3.5 py-1.5 rounded-lg border ${selectedTheme.tagColor}`}>
                       {tag}
                     </span>
                   ))}
@@ -434,7 +663,7 @@ const Projects = () => {
                     href={selectedProject.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white text-sm font-semibold flex items-center gap-2 hover:scale-105 transition"
+                    className={`px-6 py-3 rounded-xl ${selectedTheme.btnBg} text-white text-sm font-semibold flex items-center gap-2 hover:scale-105 transition`}
                   >
                     <ExternalLink size={16} /> Visit Live Site
                   </MagneticButton>
